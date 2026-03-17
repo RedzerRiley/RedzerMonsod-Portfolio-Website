@@ -117,7 +117,7 @@ function TerminalTyper() {
         {/* Extra static lines */}
         {bootDone && (
           <div className="mt-3 space-y-0.5">
-            <div><span className="t-comment"># available for: internship · freelance · full-time</span></div>
+            <div><span className="t-comment"># available for: internship · part-time </span></div>
             <div>
               <span className="t-prompt-user">redzer</span>
               <span className="t-prompt-host">@macbook</span>
