@@ -17,7 +17,7 @@ export default function ExperiencePage() {
           <div className="timeline-line" />
           <div className="pl-11 space-y-6">
             {experience.map((job) => {
-              const imagePath = job.image ? `/images/myscreenshots/${job.image}` : null;
+              const imagePath = job.image ? `images/myscreenshots/${job.image}` : null;
 
               return (
                 <div key={job.id} className="relative">
