@@ -1,5 +1,5 @@
 export default function ProjectCard({ project }) {
-  const imagePath = project.image ? `/images/myscreenshots/${project.image}` : null;
+const imagePath = project.image ? `images/myscreenshots/${project.image}` : null;
 
   return (
     <div
