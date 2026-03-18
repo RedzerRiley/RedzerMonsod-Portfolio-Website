@@ -48,9 +48,9 @@ export const projects = [
   },
   {
     id: 2,
-    title: "SK Barangay Portal",
+    title: "SK Barangay Esperanza Ilaya Web Page",
     image: "sk-esperanzailaya.png",
-    subtitle: "CRUD Web App for SK Barangay Esperanza Ilaya",
+    subtitle: "CRUD Web Page for SK Barangay Esperanza Ilaya",
     context: "Web Systems 2",
     link: "https://sk-esperanzailaya.up.railway.app/index.php",
     description:
@@ -104,7 +104,7 @@ export const experience = [
       "Applied sprint/agile methodologies, ensuring timely delivery of development tasks.",
       "Strengthened debugging and testing processes, reducing issue resolution time by ~25%.",
     ],
-    stack: ["React", "Tailwind CSS", "Django", "Open edX (MFE)", "GitHub", "REST APIs", "MySQL", "PostgreSQL", "WSL2", "Docker", "MongoDB"],
+    stack: ["React", "Tailwind CSS", "Django", "OpenedX", "GitHub", "REST APIs", "MySQL", "PostgreSQL", "WSL2 (Ubuntu)", "Docker", "MongoDB", "Tutor"],
     color: "#10b981",
   },
 ];

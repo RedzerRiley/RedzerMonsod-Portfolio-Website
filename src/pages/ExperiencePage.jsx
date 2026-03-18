@@ -25,31 +25,59 @@ export default function ExperiencePage() {
                   
                   <div className="card overflow-hidden flex flex-col md:flex-row">
                     
-                    {/* ── Image / Placeholder ── */}
-                    <div 
-                      className="md:w-2/5 lg:w-1/3 shrink-0 flex items-start justify-center p-6 relative border-b md:border-b-0 md:border-r"
-                      style={{
-                        background: "linear-gradient(135deg, #161616 0%, #111 100%)",
-                        borderColor: "var(--border)"
-                      }}
-                    >
-                      {imagePath ? (
-                        <img 
-                          src={imagePath} 
-                          alt={job.company} 
-                          // Using object-contain and h-auto fixes the cropping!
-                          // Added a subtle border and shadow to make it pop like a real screenshot window
-                          className="w-full h-auto object-contain rounded border border-[var(--border-mid)] shadow-[0_8px_30px_rgba(0,0,0,0.8)] mt-2" 
-                        />
-                      ) : (
-                        <div className="flex flex-col items-center justify-center opacity-40 py-8">
-                          <span className="text-2xl mb-2 grayscale">🖼️</span>
-                          <p className="font-mono text-xs tracking-widest uppercase text-center px-4" style={{ color: "var(--text-faint)" }}>
-                            No image available
-                          </p>
-                        </div>
-                      )}
-                    </div>
+                   {/* ── Image / Placeholder ── */}
+<div 
+  className="md:w-2/5 lg:w-1/3 shrink-0 relative border-b md:border-b-0 md:border-r overflow-hidden group"
+  style={{
+    background: "linear-gradient(135deg, #161616 0%, #111 100%)",
+    borderColor: "var(--border)",
+    minHeight: "180px",
+  }}
+>
+  {imagePath ? (
+    <>
+      {/* Blurred background fill */}
+      <div 
+        className="absolute inset-0 scale-110 transition-all duration-700 group-hover:scale-125 group-hover:brightness-50"
+        style={{
+          backgroundImage: `url(${imagePath})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "blur(12px) brightness(0.35)",
+        }}
+      />
+
+      {/* Glow ring on hover */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse at center, rgba(99,179,237,0.08) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* Sharp centered image — levitates on hover */}
+      <div className="relative z-10 flex items-center justify-center h-full p-4">
+        <img 
+          src={imagePath} 
+          alt={job.company} 
+          className="w-full h-auto max-h-48 object-contain rounded
+            shadow-[0_8px_32px_rgba(0,0,0,0.7)]
+            transition-all duration-500 ease-out
+            group-hover:-translate-y-2
+            group-hover:shadow-[0_20px_48px_rgba(0,0,0,0.9),0_0_24px_rgba(99,179,237,0.15)]
+            group-hover:scale-[1.03]"
+        />
+      </div>
+    </>
+  ) : (
+    <div className="flex flex-col items-center justify-center opacity-40 py-8 h-full">
+      <span className="text-2xl mb-2 grayscale">🖼️</span>
+      <p className="font-mono text-xs tracking-widest uppercase text-center px-4" style={{ color: "var(--text-faint)" }}>
+        No image available
+      </p>
+    </div>
+  )}
+</div>
 
                     {/* ── Content ── */}
                     <div className="p-6 space-y-5 flex-1">

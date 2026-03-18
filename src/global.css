@@ -53,6 +53,22 @@ body {
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
+  /* macOS arrow cursor — black fill, white outline, crisp on dark backgrounds */
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M 4 2 L 4 20 L 8.5 15.5 L 12.5 23 L 14.5 22 L 10.5 14.5 L 17 14.5 Z' fill='black' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 4 2, default;
+}
+
+/* Pointer cursor for clickable elements — macOS hand, black fill white outline */
+a, button, [role="button"], label[for], select, summary,
+input[type="submit"], input[type="button"], input[type="reset"],
+input[type="file"], input[type="checkbox"], input[type="radio"] {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M8 1.5 C8 1.5 8 12 8 12 L6 10 C5.5 9.5 4.5 9.5 4 10 C3.5 10.5 3.5 11.5 4 12 L9 18 C9.8 19 11 19.5 12.5 19.5 C15.5 19.5 17.5 17.5 17.5 14.5 L17.5 8 C17.5 7.2 16.8 6.5 16 6.5 C15.5 6.5 15 6.7 14.7 7.1 C14.4 6.4 13.7 6 13 6 C12.4 6 11.9 6.3 11.6 6.7 C11.3 6.1 10.7 5.7 10 5.7 C9.4 5.7 8.9 6 8.6 6.4 L8.6 1.5 C8.6 0.7 7.9 0 7 0 C6.1 0 5.4 0.7 5.4 1.5 Z' fill='black' stroke='white' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E") 8 0, pointer;
+}
+
+/* Text cursor for inputs */
+input[type="text"], input[type="email"], input[type="password"],
+input[type="search"], input[type="tel"], input[type="url"],
+input[type="number"], textarea {
+  cursor: text;
 }
 
 h1,h2,h3,h4 { font-family: var(--font-display); line-height: 1.15; letter-spacing: -0.02em; }
