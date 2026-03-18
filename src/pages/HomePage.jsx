@@ -6,8 +6,11 @@ import { projects } from "../data/index.js";
 // ── Terminal typing words ────────────────────────────────────
 const ROLES = [
   "Software Developer",
+  "Open for internship",
   "Full Stack Developer",
+  "Open for Part-time",
   "DevOps Practitioner",
+  "Contact me",
   "Project Management",
   "System Architect Design",
 ];
@@ -240,7 +243,7 @@ export default function HomePage() {
               className="anim-fade-up delay-200 text-sm max-w-md leading-relaxed"
               style={{ color: "var(--text-muted)", fontFamily: "var(--font-body)" }}
             >
-              CS student @ Mapúa University Makati | Former Software Developer Intern @ CloudSwyft | Full-stack developer with real-world experience. 
+              CS student @ Mapúa University Makati | Former Software Developer Intern @ CloudSwyft | Full-stack developer with real-world experience |
               Based from San Pedro, Laguna, Philippines.
             </p>
 
