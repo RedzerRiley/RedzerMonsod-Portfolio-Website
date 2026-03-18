@@ -8,7 +8,7 @@ export default function Footer() {
           ~/redzer
         </NavLink>
         <p className="font-mono text-xs" style={{ color: "var(--text-ghost)" }}>
-          © 2026 Redzer Riley M. Monsod · created using React + Tailwind
+          © 2026 Redzer Riley M. Monsod · version 2.0 
         </p>
         <div className="flex items-center gap-4">
           {[
