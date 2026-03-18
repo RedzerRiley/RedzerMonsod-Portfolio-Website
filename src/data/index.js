@@ -65,6 +65,25 @@ export const projects = [
     color: "#0ea5e9",
     accent: "#7dd3fc",
   },
+
+  {
+    id: 3,
+    title: "Huawei ICT Competition 2025 Networking Track",
+    image: "huawei-ict.png",
+    subtitle: "Participant in Huawei's annual ICT competition in the Networking Track",
+    context: "Huawei ICT Competition 2025",
+    link: "https://www.huawei.com/en/events/ict-competition",
+    description:
+      "Participated in Huawei's annual ICT competition, showcasing skills in networking and cloud technologies.",
+    highlights: [
+      "Gained hands-on experience with Huawei Networking services",
+      "Collaborated with a team to solve complex networking challenges",
+      "Enhanced understanding of cloud infrastructure and network management",
+    ],
+    stack: ["Huawei Networking", "Networking", "Network Infrastructure"],
+    color: "#ff6f61",
+    accent: "#ff9b8a",
+  }
 ];
 
 // ── Experience ────────────────────────────────────────────────
