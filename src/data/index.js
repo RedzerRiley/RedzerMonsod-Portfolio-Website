@@ -13,7 +13,16 @@ export const skills = [
   { name: "PostgreSQL",  icon: "🐘",  level: 70, color: "#336791", category: "Database" },
   { name: "GitHub",      icon: "🐙",  level: 85, color: "#e2e8f0", category: "DevOps"   },
   { name: "Docker",      icon: "🐳",  level: 68, color: "#2496ED", category: "DevOps"   },
-  { name: "Open edX",    icon: "📚",  level: 72, color: "#E5A823", category: "Platform" },
+  { name: "MongoDB",     icon: "🍃",  level: 65, color: "#47A248", category: "Database" },
+  { name: "WSL2 (Ubuntu)",        icon: "🐧",  level: 70, color: "#2D2D2D", category: "DevOps"   },
+  {name : "Python",      icon: "🐍",  level: 75, color: "#3776AB", category: "Backend"  },
+  {name: "C++",         icon: "💻",  level: 60, color: "#00599C", category: "Backend"  },
+  {name: "C" ,           icon: "💻",  level: 55, color: "#A8B9CC", category: "Backend"  },
+  {name: "Java",        icon: "☕",  level: 50, color: "#007396", category: "Backend"  },
+  {name: "HTML",        icon: "📄",  level: 85, color: "#E34F26", category: "Frontend" },
+  {name: "CSS",         icon: "🎨",  level: 80, color: "#1572B6", category: "Frontend" },
+  {name: "Kubernetes",   icon: "☸️",  level: 40, color: "#326CE5", category: "DevOps"   },
+  {name: "AWS",          icon: "☁️",  level: 45, color: "#FF9900", category: "Cloud"    },
 ];
 
 // ── Projects ──────────────────────────────────────────────────
