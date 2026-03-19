@@ -83,8 +83,28 @@ export const projects = [
     stack: ["Huawei Networking", "Networking", "Network Infrastructure"],
     color: "#ff6f61",
     accent: "#ff9b8a",
+  },
+
+  {
+    id : 4,
+    title: "Oratio - A Catholic Companion Prayer App",
+    image: "oratio.png",
+    subtitle: "A mobile app for Catholic prayer and devotion",
+    context: "Personal Project",
+    link: "https://oratio-317ac.web.app/auth",
+    description:
+      "A mobile app designed to provide a comprehensive prayer experience for Catholics, featuring a variety of prayers, devotionals, and spiritual resources.",
+    highlights: [
+      "Curated a wide range of Catholic prayers and devotionals",
+      "Implemented a user-friendly interface for easy navigation",  
+      "Deployed on Firebase for reliable access",
+    ],
+    stack: ["React Native", "Firebase", "Typescript", "Tailwind CSS", "Mobile Development"],
+    color: "#8b5cf6",
+    accent: "#c4b5fd",
   }
 ];
+
 
 // ── Experience ────────────────────────────────────────────────
 export const experience = [
