@@ -116,7 +116,7 @@ function TerminalTyper() {
               <span className="t-cmd">cat </span>
               <span className="t-string">contact.txt</span>
             </div>
-            <div className="t-output">redzerriley@gmail.com · (+63) 920 434 1124 · San Pedro, Laguna</div>
+            <div className="t-output">redzerriley@gmail.com · San Pedro, Laguna</div>
           </div>
         )}
       </div>
