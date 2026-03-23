@@ -36,7 +36,7 @@ const contactLinks = [
 ];
 
 // ── Change this to your actual Vercel deployment URL ──────────────────────────
-const API_URL = "https://portfolio-api.vercel.app/api/contact";
+const API_URL = "https://portfolio-api-sigma-eight.vercel.app";
 
 export default function ContactPage() {
   const [form, setForm]       = useState({ name: "", email: "", message: "" });
