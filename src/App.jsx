@@ -1,18 +1,21 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Navbar from "./components/Navbar.jsx";
-import Footer from "./components/Footer.jsx";
-import AmbientBg from "./components/AmbientBg.jsx";
-import IntroScreen from "./components/IntroScreen.jsx";
 
-import HomePage     from "./pages/HomePage.jsx";
-import AboutPage    from "./pages/AboutPage.jsx";
-import ExperiencePage from "./pages/ExperiencePage.jsx";
-import SkillsPage   from "./pages/SkillsPage.jsx";
-import ProjectsPage from "./pages/ProjectsPage.jsx";
-import ContactPage  from "./pages/ContactPage.jsx";
+// Remove the .jsx extensions here
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import AmbientBg from "./components/AmbientBg";
+import IntroScreen from "./components/IntroScreen";
+
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import ExperiencePage from "./pages/ExperiencePage";
+import SkillsPage from "./pages/SkillsPage";
+import ProjectsPage from "./pages/ProjectsPage";
+import ContactPage from "./pages/ContactPage";
 
 export default function App() {
+  // ... rest of your code remains the same
   const { pathname } = useLocation();
   
   const [showIntro, setShowIntro] = useState(true);

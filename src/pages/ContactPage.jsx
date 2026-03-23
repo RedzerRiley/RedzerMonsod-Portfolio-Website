@@ -210,6 +210,9 @@ export default function ContactPage() {
                 >
                   {loading ? "sending..." : "submit()"}
                 </button>
+                <p className="font-mono text-xs text-center" style={{ color: "var(--text-faint)" }}>
+  // your info is only used to respond to your message
+</p>
               </form>
             )}
           </div>
