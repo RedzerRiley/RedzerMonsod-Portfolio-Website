@@ -90,7 +90,7 @@ export default function ContactPage() {
         <div className="anim-fade-up text-center">
           <SectionHeader
             label="./contact"
-            title="send_message()"
+            title="Send me a message"
             centered
             subtitle="Open to internship, part-time, and full-time opportunities."
           />

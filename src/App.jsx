@@ -1,24 +1,22 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-// Remove the .jsx extensions here
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import AmbientBg from "./components/AmbientBg";
+import Navbar      from "./components/Navbar";
+import Footer      from "./components/Footer";
+import AmbientBg   from "./components/AmbientBg";
 import IntroScreen from "./components/IntroScreen";
 
-import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
+import HomePage      from "./pages/HomePage";
+import AboutPage     from "./pages/AboutPage";
 import ExperiencePage from "./pages/ExperiencePage";
-import SkillsPage from "./pages/SkillsPage";
-import ProjectsPage from "./pages/ProjectsPage";
-import ContactPage from "./pages/ContactPage";
+import SkillsPage    from "./pages/SkillsPage";
+import ProjectsPage  from "./pages/ProjectsPage";
+import ContactPage   from "./pages/ContactPage";
 
 export default function App() {
-  // ... rest of your code remains the same
   const { pathname } = useLocation();
-  
-  const [showIntro, setShowIntro] = useState(true);
+
+  const [showIntro,      setShowIntro]      = useState(true);
   const [contentVisible, setContentVisible] = useState(false);
 
   // Scroll to top on route change
@@ -28,36 +26,39 @@ export default function App() {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text)" }}>
-      {/* Intro Screen */}
+
+      {/* Intro — unmounted after its own exit animation finishes (~1650ms total) */}
       {showIntro && (
-        <IntroScreen 
-          onFadeStart={() => setContentVisible(true)}
-          onComplete={() => setShowIntro(false)} 
+        <IntroScreen
+          onFadeStart={() => setContentVisible(true)}  // fires when intro starts fading (~950ms in)
+          onComplete={()  => setShowIntro(false)}       // fires after fade finishes (~1650ms in)
         />
       )}
-      
-      {/* Background is always visible, but the content and navbar wait for the intro */}
+
       <AmbientBg />
-      
-      {/* Wrapper to hide/fade-in Navbar and Main Content */}
-      <div 
-        className={`transition-opacity duration-1000 ease-in-out ${
-          contentVisible ? "opacity-100" : "opacity-0 h-screen overflow-hidden"
-        }`}
+
+      <div
+        style={{
+          opacity:        contentVisible ? 1 : 0,
+          transition:     "opacity 700ms ease-in-out",
+          pointerEvents:  contentVisible ? "auto" : "none",
+          userSelect:     contentVisible ? "auto" : "none",
+        }}
       >
         <Navbar />
         <main className="page-content">
           <Routes>
-            <Route path="/"           element={<HomePage />} />
-            <Route path="/about"      element={<AboutPage />} />
-            <Route path="/experience" element={<ExperiencePage />} />
-            <Route path="/skills"     element={<SkillsPage />} />
-            <Route path="/projects"   element={<ProjectsPage />} />
-            <Route path="/contact"    element={<ContactPage />} />
+            <Route path="/"           element={<HomePage />}      />
+            <Route path="/about"      element={<AboutPage />}     />
+            <Route path="/experience" element={<ExperiencePage />}/>
+            <Route path="/skills"     element={<SkillsPage />}    />
+            <Route path="/projects"   element={<ProjectsPage />}  />
+            <Route path="/contact"    element={<ContactPage />}   />
           </Routes>
         </main>
         <Footer />
       </div>
+
     </div>
   );
 }

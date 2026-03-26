@@ -8,7 +8,7 @@ export default function ExperiencePage() {
         <div className="anim-fade-up">
           <SectionHeader 
             label="./experience" 
-            title="git log --all"
+            title="Work Experience"
             subtitle="Real-world work experience." 
           />
         </div>

@@ -58,7 +58,7 @@ export default function AboutPage() {
       <div className="max-w-4xl mx-auto space-y-16">
         <div className="anim-fade-up">
           <SectionHeader label="./about"
-            title="cat README.md"
+            title="About Me"
             subtitle="CS student turned developer. I build things that work in production, not just in demos." />
         </div>
 
@@ -87,7 +87,7 @@ export default function AboutPage() {
         </div>
 
         <div className="anim-fade-up delay-300 space-y-4">
-          <h2 className="font-display text-lg font-bold" style={{ color: "var(--text)" }}>education[]</h2>
+          <h2 className="font-display text-lg font-bold" style={{ color: "var(--text)" }}>Education</h2>
           <div className="grid md:grid-cols-2 gap-3">
             {education.map((edu) => (
               <div key={edu.course} className="card p-4 flex items-start gap-3.5"
