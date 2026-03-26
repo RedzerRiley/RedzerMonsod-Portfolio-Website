@@ -73,7 +73,7 @@ export const projects = [
     image: "huawei-ict.png",
     subtitle: "Participant in Huawei's annual ICT competition in the Networking Track",
     context: "Huawei ICT Competition 2025",
-    link: "https://www.huawei.com/en/events/ict-competition",
+    link: null,
     repo: null, // no repo for this one
     description:
       "Participated in Huawei's annual ICT competition, showcasing skills in networking and cloud technologies.",
