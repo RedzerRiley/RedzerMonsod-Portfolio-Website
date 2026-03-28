@@ -6,11 +6,10 @@ import Footer      from "./components/Footer";
 import AmbientBg   from "./components/AmbientBg";
 import IntroScreen from "./components/IntroScreen";
 
-import HomePage      from "./pages/HomePage";
-import AboutPage     from "./pages/AboutPage";
-import SkillsPage    from "./pages/SkillsPage";
-import ProjectsPage  from "./pages/ProjectsPage";
-import ContactPage   from "./pages/ContactPage";
+import HomePage    from "./pages/HomePage";
+import AboutPage   from "./pages/AboutPage";
+import ProjectsPage from "./pages/ProjectsPage";
+import ContactPage from "./pages/ContactPage";
 
 export default function App() {
   const { pathname } = useLocation();
@@ -29,8 +28,8 @@ export default function App() {
       {/* Intro — unmounted after its own exit animation finishes (~1650ms total) */}
       {showIntro && (
         <IntroScreen
-          onFadeStart={() => setContentVisible(true)}  // fires when intro starts fading (~950ms in)
-          onComplete={()  => setShowIntro(false)}       // fires after fade finishes (~1650ms in)
+          onFadeStart={() => setContentVisible(true)}
+          onComplete={()  => setShowIntro(false)}
         />
       )}
 
@@ -38,20 +37,19 @@ export default function App() {
 
       <div
         style={{
-          opacity:        contentVisible ? 1 : 0,
-          transition:     "opacity 700ms ease-in-out",
-          pointerEvents:  contentVisible ? "auto" : "none",
-          userSelect:     contentVisible ? "auto" : "none",
+          opacity:       contentVisible ? 1 : 0,
+          transition:    "opacity 700ms ease-in-out",
+          pointerEvents: contentVisible ? "auto" : "none",
+          userSelect:    contentVisible ? "auto" : "none",
         }}
       >
         <Navbar />
         <main className="page-content">
           <Routes>
-            <Route path="/"           element={<HomePage />}      />
-            <Route path="/about"      element={<AboutPage />}     />
-            <Route path="/skills"     element={<SkillsPage />}    />
-            <Route path="/projects"   element={<ProjectsPage />}  />
-            <Route path="/contact"    element={<ContactPage />}   />
+            <Route path="/"         element={<HomePage />}      />
+            <Route path="/about"    element={<AboutPage />}     />
+            <Route path="/projects" element={<ProjectsPage />}  />
+            <Route path="/contact"  element={<ContactPage />}   />
           </Routes>
         </main>
         <Footer />

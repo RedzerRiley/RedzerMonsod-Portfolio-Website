@@ -54,12 +54,12 @@ export default function SkillsPage() {
           ))}
         </div>
 
-        {/* Footer note */}
+        {/* Footer note
         <div className="anim-fade-up delay-300 card p-4">
           <p className="font-mono text-xs" style={{ color: "var(--text-faint)" }}>
             // stack built through coursework, internship at Cloudswyft, and personal projects
           </p>
-        </div>
+        </div> */}
 
       </div>
     </section>

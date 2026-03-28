@@ -5,7 +5,6 @@ import ContactModal from "./ContactModal";
 const links = [
   { to: "/",           label: "home"     },
   { to: "/about",      label: "about"    },
-  { to: "/skills",     label: "skills"   },
   { to: "/projects",   label: "projects" },
   { to: "/contact",    label: "contact"  },
 ];
@@ -18,14 +17,12 @@ export default function Navbar() {
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const { pathname } = useLocation();
 
-  /* scroll detection */
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  /* sliding active pill — recalc on route or resize */
   useEffect(() => {
     const update = () => {
       const activeIdx = links.findIndex(l =>
@@ -45,7 +42,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ─── Floating island ─── */}
       <header
         style={{
           position:             "fixed",
@@ -70,56 +66,55 @@ export default function Navbar() {
             : "0 4px 20px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.05) inset",
         }}
       >
-        {/* ── Brand ── */}
+        {/* ── Brand — plain mono, no external font dependency ── */}
         <NavLink
           to="/"
           style={{
-            fontFamily:     "var(--font-mono)",
-            fontSize:       "0.75rem",
-            fontWeight:     700,
-            letterSpacing:  "0.02em",
-            color:          "var(--text)",
-            textDecoration: "none",
-            whiteSpace:     "nowrap",
-            flexShrink:     0,
+            fontFamily:    "var(--font-mono)",
+            fontSize:      "0.82rem",
+            fontWeight:    700,
+            letterSpacing: "0.04em",
+            color:         "var(--text)",
+            textDecoration:"none",
+            whiteSpace:    "nowrap",
+            flexShrink:    0,
           }}
         >
-          <span style={{ color: "var(--text-faint)" }}>~/</span>redzer
+          Redzer
         </NavLink>
 
-        {/* ── Pill nav — all screen sizes, scrollable on mobile ── */}
+        {/* ── Pill nav ── */}
         <div
           ref={navRef}
           data-pill-nav
           style={{
-            position:        "relative",
-            display:         "flex",
-            alignItems:      "center",
-            gap:             "1px",
-            background:      "rgba(255,255,255,0.04)",
-            border:          "1px solid rgba(255,255,255,0.07)",
-            borderRadius:    "9999px",
-            padding:         "3px",
-            overflowX:       "auto",
-            overflowY:       "hidden",
-            scrollbarWidth:  "none",
-            flexShrink:      1,
-            minWidth:        0,
+            position:       "relative",
+            display:        "flex",
+            alignItems:     "center",
+            gap:            "1px",
+            background:     "rgba(255,255,255,0.04)",
+            border:         "1px solid rgba(255,255,255,0.07)",
+            borderRadius:   "9999px",
+            padding:        "3px",
+            overflowX:      "auto",
+            overflowY:      "hidden",
+            scrollbarWidth: "none",
+            flexShrink:     1,
+            minWidth:       0,
           }}
         >
-          {/* sliding active pill */}
           <span
             style={{
-              position:     "absolute",
-              top:          "3px",
-              height:       "calc(100% - 6px)",
-              left:         pillStyle.left + "px",
-              width:        pillStyle.width + "px",
-              borderRadius: "9999px",
-              background:   "rgba(255,255,255,0.12)",
-              border:       "1px solid rgba(255,255,255,0.15)",
-              boxShadow:    "0 1px 0 rgba(255,255,255,0.09) inset, 0 2px 8px rgba(0,0,0,0.3)",
-              transition:   "left 0.35s cubic-bezier(0.34,1.22,0.64,1), width 0.35s cubic-bezier(0.34,1.22,0.64,1)",
+              position:      "absolute",
+              top:           "3px",
+              height:        "calc(100% - 6px)",
+              left:          pillStyle.left + "px",
+              width:         pillStyle.width + "px",
+              borderRadius:  "9999px",
+              background:    "rgba(255,255,255,0.12)",
+              border:        "1px solid rgba(255,255,255,0.15)",
+              boxShadow:     "0 1px 0 rgba(255,255,255,0.09) inset, 0 2px 8px rgba(0,0,0,0.3)",
+              transition:    "left 0.35s cubic-bezier(0.34,1.22,0.64,1), width 0.35s cubic-bezier(0.34,1.22,0.64,1)",
               pointerEvents: "none",
               zIndex:        0,
             }}
@@ -151,7 +146,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* ── contact_me() — hidden on xs screens to keep island compact ── */}
+        {/* ── Contact button ── */}
         <button
           onClick={() => setModalOpen(true)}
           className="hidden sm:inline-flex"
@@ -184,11 +179,10 @@ export default function Navbar() {
             b.style.boxShadow  = "0 1px 0 rgba(255,255,255,0.55) inset, 0 2px 8px rgba(0,0,0,0.22)";
           }}
         >
-          contact_me()
+          Contact Me
         </button>
       </header>
 
-      {/* Suppress webkit scrollbar on the pill nav */}
       <style>{`
         [data-pill-nav]::-webkit-scrollbar { display: none; }
       `}</style>

@@ -19,7 +19,7 @@ export default function ProjectsPage() {
     <section className="min-h-screen px-6 pt-32 pb-24">
       <div className="max-w-4xl mx-auto space-y-10">
         <div className="anim-fade-up">
-          <SectionHeader label="./projects" title="Projects"
+          <SectionHeader label="" title="Projects"
             subtitle="Click the image placeholder on any card to upload a screenshot." />
         </div>
 

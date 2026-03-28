@@ -8,7 +8,8 @@ import resumePdf from "../assets/resume.pdf";
 const TYPING_PHRASES = [
   "Fullstack Developer.",
   "Software Engineer.",
-  " Mapúan.",
+  "DevOps Enthusiast.",
+  "Mapúan.",
   "Problem Solver.",
   "CS Student.",
 ];
