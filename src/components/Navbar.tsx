@@ -1,121 +1,197 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import ContactModal from "./ContactModal";
 
 const links = [
-  { to: "/",          label: "~/home"     },
-  { to: "/about",      label: "about"      },
-  { to: "/experience", label: "experience" },
-  { to: "/skills",     label: "skills"     },
-  { to: "/projects",   label: "projects"   },
-  { to: "/contact",    label: "contact"    },
+  { to: "/",           label: "home"     },
+  { to: "/about",      label: "about"    },
+  { to: "/skills",     label: "skills"   },
+  { to: "/projects",   label: "projects" },
+  { to: "/contact",    label: "contact"  },
 ];
 
 export default function Navbar() {
   const [scrolled,  setScrolled]  = useState(false);
-  const [menuOpen,  setMenuOpen]  = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [pillStyle, setPillStyle] = useState({ left: 0, width: 0 });
+  const navRef   = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const { pathname } = useLocation();
 
+  /* scroll detection */
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 30);
-    window.addEventListener("scroll", fn);
+    const fn = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  useEffect(() => { setMenuOpen(false); }, [pathname]);
+  /* sliding active pill — recalc on route or resize */
+  useEffect(() => {
+    const update = () => {
+      const activeIdx = links.findIndex(l =>
+        l.to === "/" ? pathname === "/" : pathname.startsWith(l.to)
+      );
+      const el  = itemRefs.current[activeIdx];
+      const nav = navRef.current;
+      if (!el || !nav) return;
+      const navRect = nav.getBoundingClientRect();
+      const elRect  = el.getBoundingClientRect();
+      setPillStyle({ left: elRect.left - navRect.left, width: elRect.width });
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [pathname]);
 
   return (
     <>
+      {/* ─── Floating island ─── */}
       <header
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-400"
         style={{
-          background:     scrolled || menuOpen ? "rgba(10,10,10,0.94)" : "transparent",
-          backdropFilter: scrolled || menuOpen ? "blur(16px)"          : "none",
-          borderBottom:   scrolled || menuOpen ? "1px solid var(--border)" : "1px solid transparent",
+          position:             "fixed",
+          top:                  scrolled ? "12px" : "18px",
+          left:                 "50%",
+          transform:            "translateX(-50%)",
+          zIndex:               100,
+          transition:           "top 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease",
+          width:                "min(900px, calc(100% - 24px))",
+          display:              "flex",
+          alignItems:           "center",
+          justifyContent:       "space-between",
+          gap:                  "10px",
+          padding:              "7px 10px 7px 16px",
+          background:           scrolled ? "rgba(10,10,10,0.78)" : "rgba(16,16,16,0.55)",
+          backdropFilter:       "blur(32px) saturate(180%)",
+          WebkitBackdropFilter: "blur(32px) saturate(180%)",
+          borderRadius:         "9999px",
+          border:               "1px solid rgba(255,255,255,0.08)",
+          boxShadow:            scrolled
+            ? "0 8px 48px rgba(0,0,0,0.75), 0 1px 0 rgba(255,255,255,0.07) inset"
+            : "0 4px 20px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.05) inset",
         }}
       >
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <NavLink
-            to="/"
-            className="font-mono text-sm font-bold tracking-tight select-none"
-            style={{ color: "var(--text)" }}
-          >
-            <span style={{ color: "var(--text-faint)" }}>~/</span>redzer
-          </NavLink>
-
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-5">
-            {links.map(({ to, label }) => (
-              <NavLink
-                key={to}
-                to={to}
-                end={to === "/"}
-                className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-              >
-                {label}
-              </NavLink>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setModalOpen(true)}
-              className="hidden sm:inline-flex btn-primary text-xs py-2 px-4"
-            >
-              contact_me()
-            </button>
-
-            <button
-              className="md:hidden flex flex-col justify-center items-center gap-1.5 p-2 w-10 h-10"
-              onClick={() => setMenuOpen(v => !v)}
-              aria-label="Toggle Menu"
-            >
-              {[0, 1, 2].map(i => (
-                <span
-                  key={i}
-                  className="block h-[2px] bg-white/80 rounded transition-all duration-300"
-                  style={{
-                    width: i === 1 ? (menuOpen ? "24px" : "16px") : "24px",
-                    transform: menuOpen
-                      ? i === 0 ? "translateY(8px) rotate(45deg)"
-                      : i === 2 ? "translateY(-8px) rotate(-45deg)"
-                      : "scaleX(0)" : "none",
-                    opacity: menuOpen && i === 1 ? 0 : 1,
-                  }}
-                />
-              ))}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        <div
-          className="md:hidden overflow-hidden transition-all duration-300"
+        {/* ── Brand ── */}
+        <NavLink
+          to="/"
           style={{
-            maxHeight:    menuOpen ? "400px" : "0",
-            background:   "rgba(10,10,10,0.98)",
-            borderBottom: menuOpen ? "1px solid var(--border)" : "none",
+            fontFamily:     "var(--font-mono)",
+            fontSize:       "0.75rem",
+            fontWeight:     700,
+            letterSpacing:  "0.02em",
+            color:          "var(--text)",
+            textDecoration: "none",
+            whiteSpace:     "nowrap",
+            flexShrink:     0,
           }}
         >
-          <nav className="flex flex-col px-6 py-4 gap-2">
-            {links.map(({ to, label }) => (
-              <NavLink
-                key={to}
-                to={to}
-                end={to === "/"}
-                className={({ isActive }) =>
-                  `block py-3 px-4 rounded font-mono text-xs transition-colors ${
-                    isActive ? "text-white bg-white/10" : "text-white/50 hover:text-white hover:bg-white/5"
-                  }`
-                }
-              >
-                {label}
-              </NavLink>
-            ))}
-          </nav>
+          <span style={{ color: "var(--text-faint)" }}>~/</span>redzer
+        </NavLink>
+
+        {/* ── Pill nav — all screen sizes, scrollable on mobile ── */}
+        <div
+          ref={navRef}
+          data-pill-nav
+          style={{
+            position:        "relative",
+            display:         "flex",
+            alignItems:      "center",
+            gap:             "1px",
+            background:      "rgba(255,255,255,0.04)",
+            border:          "1px solid rgba(255,255,255,0.07)",
+            borderRadius:    "9999px",
+            padding:         "3px",
+            overflowX:       "auto",
+            overflowY:       "hidden",
+            scrollbarWidth:  "none",
+            flexShrink:      1,
+            minWidth:        0,
+          }}
+        >
+          {/* sliding active pill */}
+          <span
+            style={{
+              position:     "absolute",
+              top:          "3px",
+              height:       "calc(100% - 6px)",
+              left:         pillStyle.left + "px",
+              width:        pillStyle.width + "px",
+              borderRadius: "9999px",
+              background:   "rgba(255,255,255,0.12)",
+              border:       "1px solid rgba(255,255,255,0.15)",
+              boxShadow:    "0 1px 0 rgba(255,255,255,0.09) inset, 0 2px 8px rgba(0,0,0,0.3)",
+              transition:   "left 0.35s cubic-bezier(0.34,1.22,0.64,1), width 0.35s cubic-bezier(0.34,1.22,0.64,1)",
+              pointerEvents: "none",
+              zIndex:        0,
+            }}
+          />
+
+          {links.map(({ to, label }, i) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === "/"}
+              ref={el => { itemRefs.current[i] = el; }}
+              style={({ isActive }) => ({
+                fontFamily:     "var(--font-mono)",
+                fontSize:       "0.68rem",
+                letterSpacing:  "0.05em",
+                padding:        "5px 10px",
+                borderRadius:   "9999px",
+                color:          isActive ? "var(--text)" : "var(--text-faint)",
+                textDecoration: "none",
+                position:       "relative",
+                zIndex:         1,
+                transition:     "color 0.2s ease",
+                whiteSpace:     "nowrap",
+                flexShrink:     0,
+              })}
+            >
+              {label}
+            </NavLink>
+          ))}
         </div>
+
+        {/* ── contact_me() — hidden on xs screens to keep island compact ── */}
+        <button
+          onClick={() => setModalOpen(true)}
+          className="hidden sm:inline-flex"
+          style={{
+            fontFamily:    "var(--font-mono)",
+            fontSize:      "0.66rem",
+            fontWeight:    600,
+            letterSpacing: "0.03em",
+            padding:       "6px 13px",
+            borderRadius:  "9999px",
+            background:    "rgba(255,255,255,0.9)",
+            color:         "#000",
+            border:        "1px solid rgba(255,255,255,0.18)",
+            cursor:        "pointer",
+            transition:    "background 0.2s, transform 0.2s, box-shadow 0.2s",
+            boxShadow:     "0 1px 0 rgba(255,255,255,0.55) inset, 0 2px 8px rgba(0,0,0,0.22)",
+            whiteSpace:    "nowrap",
+            flexShrink:    0,
+          }}
+          onMouseEnter={e => {
+            const b = e.currentTarget as HTMLButtonElement;
+            b.style.background = "#ffffff";
+            b.style.transform  = "translateY(-1px)";
+            b.style.boxShadow  = "0 1px 0 rgba(255,255,255,0.55) inset, 0 6px 18px rgba(0,0,0,0.32)";
+          }}
+          onMouseLeave={e => {
+            const b = e.currentTarget as HTMLButtonElement;
+            b.style.background = "rgba(255,255,255,0.9)";
+            b.style.transform  = "translateY(0)";
+            b.style.boxShadow  = "0 1px 0 rgba(255,255,255,0.55) inset, 0 2px 8px rgba(0,0,0,0.22)";
+          }}
+        >
+          contact_me()
+        </button>
       </header>
+
+      {/* Suppress webkit scrollbar on the pill nav */}
+      <style>{`
+        [data-pill-nav]::-webkit-scrollbar { display: none; }
+      `}</style>
 
       <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </>
