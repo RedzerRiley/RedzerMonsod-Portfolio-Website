@@ -1,45 +1,22 @@
-import { useState, useEffect, useMemo } from "react";
-
-const PARTICLE_N = 80;
-
-function makeRng(seed) {
-  let s = seed;
-  return () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
-}
+import { useState, useEffect } from "react";
 
 export default function IntroScreen({ onFadeStart, onComplete }) {
   const [phase, setPhase]     = useState("idle");   // idle → in → hold → exit
   const [exiting, setExiting] = useState(false);
 
-  const particles = useMemo(() => {
-    const rng = makeRng(42);
-    return Array.from({ length: PARTICLE_N }, () => ({
-      x:     rng() * 100,
-      y:     rng() * 100,
-      size:  1 + rng() * 2,
-      alpha: 0.08 + rng() * 0.22,
-      dur:   4 + rng() * 5,
-      delay: rng() * 4,
-      dx:    (rng() - 0.5) * 12,
-      dy:    (rng() - 0.5) * 12,
-    }));
-  }, []);
-
   useEffect(() => {
     const t1 = setTimeout(() => setPhase("in"),   100);
-    const t2 = setTimeout(() => setPhase("hold"), 900);
+    const t2 = setTimeout(() => setPhase("hold"), 800);
     const t3 = setTimeout(() => {
       setPhase("exit");
       setExiting(true);
       if (onFadeStart) onFadeStart();
-    }, 2000);
+    }, 1800); // Slightly faster exit so the user isn't waiting
     const t4 = setTimeout(() => {
       if (onComplete) onComplete();
-    }, 2700);
+    }, 2500);
     return () => [t1, t2, t3, t4].forEach(clearTimeout);
-  }, []);
-
-  const visible = phase === "in" || phase === "hold" || phase === "exit";
+  }, [onFadeStart, onComplete]);
 
   return (
     <div style={{
@@ -53,8 +30,8 @@ export default function IntroScreen({ onFadeStart, onComplete }) {
       justifyContent: "center",
       pointerEvents:  exiting ? "none" : "auto",
       opacity:        exiting ? 0 : 1,
-      transition:     exiting
-        ? "opacity 0.65s cubic-bezier(.4,0,1,1)"
+      transition:     exiting 
+        ? "opacity 0.65s cubic-bezier(.4,0,1,1)" 
         : "none",
     }}>
 
@@ -73,30 +50,11 @@ export default function IntroScreen({ onFadeStart, onComplete }) {
         background:"radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.75) 100%)",
       }}/>
 
-      {/* PARTICLES */}
-      <div style={{ position:"absolute", inset:0, pointerEvents:"none", overflow:"hidden" }}>
-        {particles.map((p, i) => (
-          <div key={i} style={{
-            position:     "absolute",
-            left:         `${p.x}%`,
-            top:          `${p.y}%`,
-            width:        p.size,
-            height:       p.size,
-            borderRadius: "50%",
-            background:   `rgba(240,240,240,${p.alpha})`,
-            opacity:      visible ? 1 : 0,
-            transition:   `opacity 1.2s ${i * 6}ms ease`,
-            animation:    visible ? `pd_${i} ${p.dur}s ${p.delay}s ease-in-out infinite alternate` : "none",
-          }}/>
-        ))}
-      </div>
-
       {/* ICON */}
       <div style={{
         display:        "flex",
-        flexDirection:  "column",
         alignItems:     "center",
-        gap:            20,
+        justifyContent: "center",
         opacity:        phase === "idle" ? 0 : 1,
         transform:      phase === "idle" ? "scale(0.92)" : "scale(1)",
         transition:     "opacity 0.55s cubic-bezier(.22,1,.36,1), transform 0.55s cubic-bezier(.22,1,.36,1)",
@@ -105,85 +63,57 @@ export default function IntroScreen({ onFadeStart, onComplete }) {
         {/* The </> bracket */}
         <div style={{
           fontFamily:    "var(--font-display, 'JetBrains Mono', monospace)",
-          fontSize:      "clamp(2.8rem, 8vw, 5rem)",
-          fontWeight:    400,
+          fontSize:      "clamp(3.5rem, 10vw, 6rem)", // Made it slightly larger overall
+          fontWeight:    700, // Increased thickness
           letterSpacing: "-0.02em",
           color:         "var(--text, #f0f0f0)",
           userSelect:    "none",
           display:       "flex",
           alignItems:    "center",
           gap:           "0.15em",
+          textShadow:    "0 0 30px rgba(255,255,255,0.15)", // Added subtle premium glow
         }}>
           <span style={{
-            color:      "var(--text-muted, rgba(240,240,240,0.48))",
+            color:      "var(--text-muted, rgba(240,240,240,0.6))",
             opacity:    phase === "hold" || phase === "exit" ? 1 : 0,
-            transform:  phase === "hold" || phase === "exit" ? "translateX(0)" : "translateX(-10px)",
+            transform:  phase === "hold" || phase === "exit" ? "translateX(0)" : "translateX(-15px)",
             transition: "opacity 0.4s 0.05s ease, transform 0.4s 0.05s cubic-bezier(.22,1,.36,1)",
           }}>&lt;</span>
 
           <span style={{
             color:      "var(--text, #f0f0f0)",
             opacity:    phase === "in" || phase === "hold" || phase === "exit" ? 1 : 0,
-            transform:  phase === "in" || phase === "hold" || phase === "exit" ? "translateY(0)" : "translateY(14px)",
+            transform:  phase === "in" || phase === "hold" || phase === "exit" ? "translateY(0)" : "translateY(20px)",
             transition: "opacity 0.45s ease, transform 0.5s cubic-bezier(.22,1,.36,1)",
           }}>/</span>
 
           <span style={{
-            color:      "var(--text-muted, rgba(240,240,240,0.48))",
+            color:      "var(--text-muted, rgba(240,240,240,0.6))",
             opacity:    phase === "hold" || phase === "exit" ? 1 : 0,
-            transform:  phase === "hold" || phase === "exit" ? "translateX(0)" : "translateX(10px)",
+            transform:  phase === "hold" || phase === "exit" ? "translateX(0)" : "translateX(15px)",
             transition: "opacity 0.4s 0.05s ease, transform 0.4s 0.05s cubic-bezier(.22,1,.36,1)",
           }}>&gt;</span>
         </div>
-
-        {/* Loading bar */}
-        <div style={{
-          width:        120,
-          height:       1,
-          background:   "var(--border, rgba(255,255,255,0.07))",
-          borderRadius: 1,
-          overflow:     "hidden",
-          opacity:      phase === "hold" || phase === "exit" ? 1 : 0,
-          transition:   "opacity 0.3s 0.2s ease",
-        }}>
-          <div style={{
-            height:     "100%",
-            background: "var(--text, #f0f0f0)",
-            borderRadius: 1,
-            width:      phase === "hold" || phase === "exit" ? "100%" : "0%",
-            transition: "width 0.85s 0.25s cubic-bezier(.22,1,.36,1)",
-          }}/>
-        </div>
-
       </div>
 
       {/* CORNER BRACKETS */}
       {[
-        { top:24,    left:24,   borderTop:"1px solid", borderLeft:"1px solid"   },
-        { top:24,    right:24,  borderTop:"1px solid", borderRight:"1px solid"  },
-        { bottom:24, left:24,   borderBottom:"1px solid", borderLeft:"1px solid"  },
-        { bottom:24, right:24,  borderBottom:"1px solid", borderRight:"1px solid" },
+        { top:24,    left:24,   borderTop:"2px solid", borderLeft:"2px solid"   }, // Thicker corners
+        { top:24,    right:24,  borderTop:"2px solid", borderRight:"2px solid"  },
+        { bottom:24, left:24,   borderBottom:"2px solid", borderLeft:"2px solid"  },
+        { bottom:24, right:24,  borderBottom:"2px solid", borderRight:"2px solid" },
       ].map((pos, i) => (
         <div key={i} style={{
           position:    "absolute",
           ...pos,
-          width:       14,
-          height:      14,
-          borderColor: "var(--border-mid, rgba(255,255,255,0.09))",
+          width:       16,
+          height:      16,
+          borderColor: "var(--border-mid, rgba(255,255,255,0.15))",
           opacity:     phase === "hold" || phase === "exit" ? 1 : 0,
           transition:  `opacity 0.4s ${i * 60 + 150}ms ease`,
         }}/>
       ))}
 
-      {/* KEYFRAMES */}
-      <style>{`
-        ${particles.map((p, i) => `
-          @keyframes pd_${i} {
-            from { transform: translate(0px, 0px); }
-            to   { transform: translate(${p.dx}px, ${p.dy}px); }
-          }
-        `).join("")}
-      `}</style>
     </div>
   );
 }
