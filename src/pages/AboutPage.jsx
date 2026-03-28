@@ -169,7 +169,7 @@ export default function AboutPage() {
                 background: "var(--bg-card)",
               }}>
                 <img
-                  src="public/images/profile.jpg"
+                  src="/images/profile.jpg"
                   alt="Redzer Monsod"
                   style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                   onError={e => {
