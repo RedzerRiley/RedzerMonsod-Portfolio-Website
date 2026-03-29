@@ -363,6 +363,7 @@ function ScrollExperience() {
 function ProjectRow({ project, index }) {
   const [hovered, setHovered] = useState(false);
   const rowRef   = useRef(null);
+  const videoRef = useRef(null);
   const [visible, setVisible] = useState(false);
 
   // Even → slide from LEFT, Odd → slide from RIGHT
@@ -377,11 +378,28 @@ function ProjectRow({ project, index }) {
     return () => obs.disconnect();
   }, []);
 
+  // Play/Pause Video Logic
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      if (hovered) {
+        const playPromise = videoRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(e => console.warn("Autoplay blocked:", e));
+        }
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  }, [hovered]);
+
   const description = project.description || project.summary || "A full-stack project built with modern technologies, focused on clean architecture and great user experience.";
   const stack       = project.stack || project.tech || [];
   const year        = project.year || project.period || "2026";
   const org         = project.company || project.org || "";
   const link        = project.link || project.url || "#";
+  const videoFile   = project.video;
 
   return (
     <div
@@ -478,6 +496,32 @@ function ProjectRow({ project, index }) {
                 e.currentTarget.nextSibling.style.display = "flex";
               }}
             />
+
+            {/* VIDEO PLAYER (Relative Pathing Fix) */}
+            {videoFile && (
+              <video
+                ref={videoRef}
+                src={`./videos/${videoFile}`}
+                muted
+                playsInline
+                loop
+                preload="auto"
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "top center",
+                  opacity: hovered ? 1 : 0,
+                  transition: "opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1)",
+                  transform: hovered ? "scale(1.03)" : "scale(1)",
+                  zIndex: 5,
+                  pointerEvents: "none"
+                }}
+              />
+            )}
+
             {/* Fallback — only shown if image 404s */}
             <div style={{ display: "none", height: "320px", background: "linear-gradient(145deg, #0e0e0e 0%, #141414 100%)", alignItems: "center", justifyContent: "center" }}>
               <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, color: "rgba(255,255,255,0.04)", letterSpacing: "-0.02em", textAlign: "center", padding: "0 24px" }}>

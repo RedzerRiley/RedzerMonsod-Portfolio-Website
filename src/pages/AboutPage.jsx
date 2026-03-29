@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { education, skills } from "../data/index.js";
 
 // ── Simple icon via CDN ───────────────────────────────────────
@@ -9,7 +9,7 @@ function SimpleIcon({ slug, color, size = 18 }) {
       <span style={{
         display: "inline-flex", alignItems: "center", justifyContent: "center",
         width: size, height: size, fontSize: size * 0.42,
-        fontFamily: "var(--font-mono)", fontWeight: 700,
+        fontFamily: "'DM Sans', monospace", fontWeight: 700,
         color, textTransform: "uppercase", letterSpacing: "-0.04em", opacity: 0.85,
       }}>
         {slug.slice(0, 2)}
@@ -21,7 +21,7 @@ function SimpleIcon({ slug, color, size = 18 }) {
       src={`https://cdn.simpleicons.org/${slug}/${color.replace("#", "")}`}
       alt={slug} width={size} height={size}
       onError={() => setErrored(true)}
-      style={{ display: "block", flexShrink: 0 }}
+      style={{ display: "block", flexShrink: 0, transition: "transform 0.3s ease" }}
     />
   );
 }
@@ -31,43 +31,59 @@ function SkillCard({ skill, index }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div
+      className="stagger-enter"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        animationDelay:  `${index * 35}ms`,
-        borderColor:     hovered ? skill.color + "55" : "var(--border)",
-        background:      hovered ? "var(--bg-hover)" : "var(--bg-card)",
-        transition:      "border-color .22s, background .22s, box-shadow .22s",
-        boxShadow:       hovered ? `0 0 0 1px ${skill.color}22, 0 8px 32px rgba(0,0,0,0.5)` : "none",
-        padding:         "12px 14px",
+        animationDelay:  `${(index * 25) + 300}ms`,
+        position:        "relative",
         display:         "flex",
         alignItems:      "center",
-        gap:             10,
-        border:          "1px solid var(--border)",
-        borderRadius:    "var(--radius)",
+        gap:             12,
+        padding:         "12px 16px",
+        borderRadius:    "14px",
         cursor:          "default",
+        background:      hovered ? "rgba(30, 30, 30, 0.8)" : "rgba(20, 20, 20, 0.4)",
+        border:          `1px solid ${hovered ? skill.color + "55" : "rgba(255,255,255,0.06)"}`,
+        boxShadow:       hovered ? `0 8px 24px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.1)` : "none",
+        transform:       hovered ? "translateY(-2px) scale(1.02)" : "translateY(0) scale(1)",
+        transition:      "all 0.4s cubic-bezier(0.32, 0.72, 0, 1)",
+        overflow:        "hidden",
       }}
     >
+      {/* Background ambient glow on hover */}
+      {hovered && (
+        <div style={{
+          position: "absolute", inset: 0, opacity: 0.15,
+          background: `radial-gradient(circle at center, ${skill.color} 0%, transparent 70%)`,
+          pointerEvents: "none", zIndex: 0
+        }} />
+      )}
+
       <div style={{
-        flexShrink: 0, width: 32, height: 32, borderRadius: "var(--radius-sm)",
-        background: hovered ? `${skill.color}18` : "var(--bg-surface)",
-        border: `1px solid ${hovered ? skill.color + "44" : "var(--border)"}`,
+        flexShrink: 0, width: 34, height: 34, borderRadius: "10px",
+        background: hovered ? `${skill.color}15` : "rgba(255,255,255,0.03)",
+        border: `1px solid ${hovered ? skill.color + "40" : "rgba(255,255,255,0.05)"}`,
         display: "flex", alignItems: "center", justifyContent: "center",
-        transition: "background .22s, border-color .22s",
+        transition: "all 0.4s cubic-bezier(0.32, 0.72, 0, 1)",
+        zIndex: 1,
       }}>
-        <SimpleIcon slug={skill.icon} color={hovered ? skill.color : "808080"} size={16} />
+        <SimpleIcon slug={skill.icon} color={hovered ? skill.color : "rgba(255,255,255,0.4)"} size={16} />
       </div>
-      <div style={{ flex: 1, minWidth: 0 }}>
+
+      <div style={{ flex: 1, minWidth: 0, zIndex: 1 }}>
         <p style={{
-          fontFamily: "var(--font-mono)", fontSize: "0.72rem", fontWeight: 600,
-          color: hovered ? "var(--text)" : "var(--text-muted)", transition: "color .22s",
-          whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+          fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", fontWeight: 600,
+          color: hovered ? "#ffffff" : "rgba(220,220,220,0.8)", 
+          transition: "color 0.3s ease",
+          whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", margin: 0,
         }}>
           {skill.name}
         </p>
         <p style={{
-          fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "var(--text-faint)",
-          marginTop: 2, letterSpacing: "0.06em", textTransform: "uppercase",
+          fontFamily: "'DM Sans', monospace", fontSize: "0.58rem", 
+          color: "rgba(160,160,160,0.5)",
+          marginTop: 3, letterSpacing: "0.08em", textTransform: "uppercase", margin: "2px 0 0 0"
         }}>
           {skill.category}
         </p>
@@ -77,19 +93,51 @@ function SkillCard({ skill, index }) {
 }
 
 // ── Info card ─────────────────────────────────────────────────
-function InfoCard({ label, val, icon }) {
+function InfoCard({ label, val, icon, index }) {
+  const [hovered, setHovered] = useState(false);
+  
   return (
-    <div style={{
-      padding: "14px 16px", border: "1px solid var(--border)", borderRadius: "var(--radius)",
-      background: "var(--bg-card)", display: "flex", flexDirection: "column", gap: 6,
-    }}>
-      <span style={{ color: "var(--text-muted)", display: "flex" }}>{icon}</span>
-      <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.62rem", color: "var(--text-faint)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-        {label}
-      </p>
-      <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", fontWeight: 600, color: "var(--text)", wordBreak: "break-all" }}>
-        {val}
-      </p>
+    <div 
+      className="stagger-enter"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        animationDelay: `${index * 80}ms`,
+        padding: "18px 20px", 
+        border: `1px solid ${hovered ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.06)"}`, 
+        borderRadius: "16px",
+        background: hovered ? "rgba(30, 30, 30, 0.6)" : "rgba(20, 20, 20, 0.4)", 
+        backdropFilter: "blur(20px)",
+        display: "flex", flexDirection: "column", gap: 10,
+        transform: hovered ? "translateY(-3px)" : "translateY(0)",
+        transition: "all 0.4s cubic-bezier(0.32, 0.72, 0, 1)",
+        boxShadow: hovered ? "0 12px 32px rgba(0,0,0,0.4)" : "none",
+      }}
+    >
+      <span style={{ 
+        color: hovered ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.4)", 
+        display: "flex",
+        transition: "color 0.3s ease",
+      }}>
+        {icon}
+      </span>
+      <div>
+        <p style={{ 
+          fontFamily: "'DM Sans', monospace", fontSize: "0.62rem", 
+          color: "rgba(180,180,180,0.4)", letterSpacing: "0.1em", textTransform: "uppercase", 
+          margin: "0 0 4px 0" 
+        }}>
+          {label}
+        </p>
+        <p style={{ 
+          fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", fontWeight: 600, 
+          color: hovered ? "#ffffff" : "rgba(240,240,240,0.9)", 
+          wordBreak: "break-all", margin: 0,
+          transition: "color 0.3s ease",
+        }}>
+          {val}
+        </p>
+      </div>
     </div>
   );
 }
@@ -98,27 +146,27 @@ function InfoCard({ label, val, icon }) {
 const infoCards = [
   {
     label: "university", val: "Mapúa University",
-    icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>,
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>,
   },
   {
     label: "degree", val: "BS Computer Science",
-    icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
   },
   {
     label: "location", val: "San Pedro, Laguna, PH",
-    icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
   },
   {
     label: "email", val: "redzerriley@gmail.com",
-    icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
   },
   {
     label: "status", val: "Open for work",
     icon: (
-      <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-        <div style={{ position: "relative", width: 10, height: 10, flexShrink: 0 }}>
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#10b981", boxShadow: "0 0 8px rgba(16,185,129,0.8)" }} />
-          <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#10b981", animation: "ping 1.5s cubic-bezier(0,0,0.2,1) infinite", opacity: 0.6 }} />
+      <div style={{ display: "flex", alignItems: "center", height: "18px" }}>
+        <div style={{ position: "relative", width: 12, height: 12, flexShrink: 0 }}>
+          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#10b981", boxShadow: "0 0 12px rgba(16,185,129,0.8)" }} />
+          <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#10b981", animation: "ping 2s cubic-bezier(0,0,0.2,1) infinite", opacity: 0.6 }} />
         </div>
       </div>
     ),
@@ -130,65 +178,85 @@ const skillCategories = ["All", "Frontend", "Backend", "Database", "Cloud", "Dev
 // ── Page ──────────────────────────────────────────────────────
 export default function AboutPage() {
   const [activeSkillCat, setActiveSkillCat] = useState("All");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const filteredSkills = activeSkillCat === "All"
     ? skills
     : skills.filter(s => s.category === activeSkillCat);
 
   return (
-    <div style={{ minHeight: "100vh", paddingBottom: "120px" }}>
+    <div style={{ minHeight: "100vh", paddingBottom: "120px", position: "relative", overflow: "hidden" }}>
+      
+      {/* Ambient background blur/glow */}
+      <div style={{ position: "absolute", top: "-10%", left: "50%", transform: "translateX(-50%)", width: "800px", height: "500px", borderRadius: "50%", background: "radial-gradient(ellipse, rgba(255,255,255,0.03) 0%, transparent 60%)", filter: "blur(60px)", pointerEvents: "none", zIndex: 0 }} />
+
       <style>{`
         @keyframes ping {
-          75%, 100% { transform: scale(2); opacity: 0; }
+          75%, 100% { transform: scale(2.2); opacity: 0; }
         }
-        @keyframes aboutFadeUp {
-          from { opacity: 0; transform: translateY(24px); }
-          to   { opacity: 1; transform: translateY(0); }
+        @keyframes blurFadeUp {
+          0% { opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(10px); }
+          100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
         }
         .about-section {
-          animation: aboutFadeUp 0.7s cubic-bezier(0.22,1,0.36,1) both;
+          opacity: 0;
+          animation: blurFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+          position: relative;
+          z-index: 1;
         }
-        .about-section:nth-child(1) { animation-delay: 0.05s; }
-        .about-section:nth-child(2) { animation-delay: 0.15s; }
-        .about-section:nth-child(3) { animation-delay: 0.25s; }
-        .about-section:nth-child(4) { animation-delay: 0.35s; }
-        .about-section:nth-child(5) { animation-delay: 0.42s; }
+        .about-section:nth-child(1) { animation-delay: 0.1s; }
+        .about-section:nth-child(2) { animation-delay: 0.2s; }
+        .about-section:nth-child(3) { animation-delay: 0.3s; }
+        .about-section:nth-child(4) { animation-delay: 0.4s; }
+        .about-section:nth-child(5) { animation-delay: 0.5s; }
+        
+        .stagger-enter {
+          opacity: 0;
+          animation: blurFadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
       `}</style>
 
-      <div style={{ maxWidth: "860px", margin: "0 auto", padding: "120px 24px 0" }}>
+      <div style={{ maxWidth: "880px", margin: "0 auto", padding: "140px 24px 0" }}>
 
         {/* ── 1. Photo + Identity hero ── */}
-        <div className="about-section" style={{ marginBottom: "72px" }}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "32px" }}>
+        <div className="about-section" style={{ marginBottom: "80px" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "36px" }}>
 
-            {/* Photo */}
+            {/* Photo Squirkle */}
             <div style={{ position: "relative", flexShrink: 0 }}>
               <div style={{
-                width: "120px", height: "120px", borderRadius: "16px", overflow: "hidden",
-                border: "1px solid rgba(255,255,255,0.12)",
-                boxShadow: "0 0 0 4px rgba(255,255,255,0.04), 0 20px 60px rgba(0,0,0,0.6)",
-                background: "var(--bg-card)",
+                width: "130px", height: "130px", borderRadius: "32px", overflow: "hidden", // iOS style rounding
+                border: "1px solid rgba(255,255,255,0.1)",
+                boxShadow: "0 20px 40px -10px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.2)",
+                background: "rgba(20,20,20,0.8)",
+                backdropFilter: "blur(20px)",
               }}>
                 <img
                   src="./images/profile.jpg"
                   alt="Redzer Monsod"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.5s ease" }}
+                  onMouseEnter={e => e.currentTarget.style.transform = "scale(1.05)"}
+                  onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
                   onError={e => {
-                    // Graceful fallback if photo not found
                     e.currentTarget.style.display = "none";
                     e.currentTarget.parentElement.style.display = "flex";
                     e.currentTarget.parentElement.style.alignItems = "center";
                     e.currentTarget.parentElement.style.justifyContent = "center";
                     e.currentTarget.parentElement.innerHTML =
-                      `<span style="font-family:var(--font-mono);font-size:2rem;font-weight:700;color:rgba(255,255,255,0.15)">RM</span>`;
+                      `<span style="font-family:'Playfair Display', serif;font-size:2.5rem;font-weight:700;color:rgba(255,255,255,0.15)">RM</span>`;
                   }}
                 />
               </div>
               {/* Online indicator */}
               <div style={{
-                position: "absolute", bottom: "8px", right: "8px",
-                width: "12px", height: "12px", borderRadius: "50%",
-                background: "#10b981", boxShadow: "0 0 8px rgba(16,185,129,0.9)",
-                border: "2px solid var(--bg)",
+                position: "absolute", bottom: "4px", right: "4px",
+                width: "18px", height: "18px", borderRadius: "50%",
+                background: "#10b981", boxShadow: "0 0 12px rgba(16,185,129,0.6)",
+                border: "3px solid #0a0a0a", // Match page background
               }} />
             </div>
 
@@ -196,18 +264,19 @@ export default function AboutPage() {
             <div>
               <h1 style={{
                 fontFamily: "'Playfair Display', Georgia, serif",
-                fontWeight: 800, fontSize: "clamp(2.2rem, 5vw, 3.4rem)",
-                letterSpacing: "-0.02em", lineHeight: 1.1,
-                color: "rgba(240,240,240,0.95)", margin: "0 0 10px",
+                fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 4rem)",
+                letterSpacing: "-0.02em", lineHeight: 1.05,
+                color: "#ffffff", margin: "0 0 12px",
+                textShadow: "0 4px 24px rgba(255,255,255,0.15)"
               }}>
                 Redzer Riley<br />
-                <em style={{ fontStyle: "italic", color: "rgba(200,200,200,0.4)", fontWeight: 700 }}>
+                <em style={{ fontStyle: "italic", color: "rgba(200,200,200,0.5)", fontWeight: 700 }}>
                   Monsod
                 </em>
               </h1>
               <p style={{
-                fontFamily: "var(--font-mono)", fontSize: "0.78rem", fontWeight: 500,
-                color: "rgba(200,200,200,0.45)", letterSpacing: "0.08em",
+                fontFamily: "'DM Sans', monospace", fontSize: "0.8rem", fontWeight: 500,
+                color: "rgba(200,200,200,0.6)", letterSpacing: "0.1em",
                 textTransform: "uppercase", margin: 0,
               }}>
                 Fullstack Developer · CS Student · Mapúan
@@ -217,30 +286,34 @@ export default function AboutPage() {
         </div>
 
         {/* ── 2. Bio ── */}
-        <div className="about-section" style={{ marginBottom: "64px" }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: "12px", marginBottom: "20px" }}>
+        <div className="about-section" style={{ marginBottom: "80px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "28px" }}>
             <span style={{
-              fontFamily: "var(--font-mono)", fontSize: "0.62rem", letterSpacing: "0.12em",
-              textTransform: "uppercase", color: "rgba(255,255,255,0.2)",
+              fontFamily: "'DM Sans', monospace", fontSize: "0.65rem", letterSpacing: "0.15em",
+              color: "rgba(255,255,255,0.2)",
             }}>
-              01 &mdash;
+              01
             </span>
+            <div style={{ height: "1px", width: "40px", background: "rgba(255,255,255,0.1)" }} />
             <h2 style={{
               fontFamily: "'Playfair Display', Georgia, serif",
-              fontSize: "1.25rem", fontWeight: 700, color: "rgba(240,240,240,0.85)", margin: 0,
+              fontSize: "1.4rem", fontWeight: 700, color: "rgba(240,240,240,0.9)", margin: 0, letterSpacing: "-0.01em"
             }}>
               Background
             </h2>
           </div>
 
-          <div style={{ display: "grid", gap: "14px", maxWidth: "640px" }}>
+          <div style={{ display: "grid", gap: "20px", maxWidth: "680px" }}>
             {[
               `I'm currently enrolled in <strong>BS Computer Science at Mapúa University</strong> after transferring from BS Physics — that background sharpened the way I approach systems and problem decomposition.`,
               `My internship at <strong>Cloudswyft</strong> put me in a real production environment: debugging Open edX deployments, designing ERDs, and frontend development.`,
               `I care deeply about clean architecture, code quality, and structure. Currently exploring DevOps and cloud-native patterns.`,
             ].map((html, i) => (
               <p key={i}
-                style={{ fontFamily: "var(--font-body)", fontSize: "0.88rem", lineHeight: 1.75, color: "var(--text-muted)", margin: 0 }}
+                style={{ 
+                  fontFamily: "'DM Sans', sans-serif", fontSize: "0.95rem", lineHeight: 1.8, 
+                  color: "rgba(200,200,200,0.7)", margin: 0 
+                }}
                 dangerouslySetInnerHTML={{ __html: html }}
               />
             ))}
@@ -248,17 +321,18 @@ export default function AboutPage() {
         </div>
 
         {/* ── 3. Info cards ── */}
-        <div className="about-section" style={{ marginBottom: "64px" }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: "12px", marginBottom: "20px" }}>
+        <div className="about-section" style={{ marginBottom: "80px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "28px" }}>
             <span style={{
-              fontFamily: "var(--font-mono)", fontSize: "0.62rem", letterSpacing: "0.12em",
-              textTransform: "uppercase", color: "rgba(255,255,255,0.2)",
+              fontFamily: "'DM Sans', monospace", fontSize: "0.65rem", letterSpacing: "0.15em",
+              color: "rgba(255,255,255,0.2)",
             }}>
-              02 &mdash;
+              02
             </span>
+            <div style={{ height: "1px", width: "40px", background: "rgba(255,255,255,0.1)" }} />
             <h2 style={{
               fontFamily: "'Playfair Display', Georgia, serif",
-              fontSize: "1.25rem", fontWeight: 700, color: "rgba(240,240,240,0.85)", margin: 0,
+              fontSize: "1.4rem", fontWeight: 700, color: "rgba(240,240,240,0.9)", margin: 0, letterSpacing: "-0.01em"
             }}>
               Details
             </h2>
@@ -267,51 +341,71 @@ export default function AboutPage() {
           <div style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
-            gap: "10px",
+            gap: "16px",
           }}>
-            {infoCards.map(({ label, val, icon }) => (
-              <InfoCard key={label} label={label} val={val} icon={icon} />
+            {mounted && infoCards.map(({ label, val, icon }, i) => (
+              <InfoCard key={label} label={label} val={val} icon={icon} index={i} />
             ))}
           </div>
         </div>
 
         {/* ── 4. Education ── */}
-        <div className="about-section" style={{ marginBottom: "64px" }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: "12px", marginBottom: "20px" }}>
+        <div className="about-section" style={{ marginBottom: "80px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "28px" }}>
             <span style={{
-              fontFamily: "var(--font-mono)", fontSize: "0.62rem", letterSpacing: "0.12em",
-              textTransform: "uppercase", color: "rgba(255,255,255,0.2)",
+              fontFamily: "'DM Sans', monospace", fontSize: "0.65rem", letterSpacing: "0.15em",
+              color: "rgba(255,255,255,0.2)",
             }}>
-              03 &mdash;
+              03
             </span>
+            <div style={{ height: "1px", width: "40px", background: "rgba(255,255,255,0.1)" }} />
             <h2 style={{
               fontFamily: "'Playfair Display', Georgia, serif",
-              fontSize: "1.25rem", fontWeight: 700, color: "rgba(240,240,240,0.85)", margin: 0,
+              fontSize: "1.4rem", fontWeight: 700, color: "rgba(240,240,240,0.9)", margin: 0, letterSpacing: "-0.01em"
             }}>
               Education
             </h2>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "10px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "16px" }}>
             {education.map((edu) => (
               <div key={edu.course} style={{
-                padding: "18px 20px",
-                border: `1px solid ${edu.active ? "rgba(255,255,255,0.15)" : "var(--border)"}`,
-                borderRadius: "var(--radius)",
-                background: edu.active ? "rgba(255,255,255,0.04)" : "var(--bg-card)",
-                display: "flex", alignItems: "flex-start", gap: "14px",
-              }}>
-                <span style={{ fontSize: "1.4rem", marginTop: "2px", flexShrink: 0 }}>{edu.icon}</span>
-                <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                  <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.82rem", color: "var(--text)", margin: 0 }}>
+                padding: "24px",
+                border: `1px solid ${edu.active ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.06)"}`,
+                borderRadius: "16px",
+                background: edu.active ? "rgba(30, 30, 30, 0.6)" : "rgba(20, 20, 20, 0.4)",
+                backdropFilter: "blur(20px)",
+                display: "flex", alignItems: "flex-start", gap: "18px",
+                boxShadow: edu.active ? "inset 0 1px 1px rgba(255,255,255,0.08), 0 8px 24px rgba(0,0,0,0.2)" : "none",
+                transition: "transform 0.3s ease",
+              }}
+              onMouseEnter={e => e.currentTarget.style.transform = "translateY(-2px)"}
+              onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
+              >
+                <div style={{ 
+                  fontSize: "1.6rem", flexShrink: 0, width: "44px", height: "44px", 
+                  background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.05)",
+                  borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center"
+                }}>
+                  {edu.icon}
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: "0.9rem", color: "#ffffff", margin: 0 }}>
                     {edu.course}
                   </p>
-                  <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.68rem", color: "var(--text-faint)", margin: 0 }}>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: "rgba(200,200,200,0.6)", margin: 0 }}>
                     {edu.school} · {edu.location}
                   </p>
-                  <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: edu.active ? "#10b981" : "var(--text-faint)", margin: 0 }}>
-                    {edu.period}{edu.active ? " · active" : ""}
-                  </p>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "2px" }}>
+                    <p style={{ fontFamily: "'DM Sans', monospace", fontSize: "0.65rem", color: edu.active ? "#10b981" : "rgba(160,160,160,0.5)", margin: 0, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                      {edu.period}
+                    </p>
+                    {edu.active && (
+                      <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.6rem", background: "rgba(16,185,129,0.15)", color: "#10b981", padding: "2px 8px", borderRadius: "9999px", fontWeight: 600 }}>
+                        Active
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -320,39 +414,53 @@ export default function AboutPage() {
 
         {/* ── 5. Skills ── */}
         <div className="about-section">
-          <div style={{ display: "flex", alignItems: "baseline", gap: "12px", marginBottom: "20px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "28px" }}>
             <span style={{
-              fontFamily: "var(--font-mono)", fontSize: "0.62rem", letterSpacing: "0.12em",
-              textTransform: "uppercase", color: "rgba(255,255,255,0.2)",
+              fontFamily: "'DM Sans', monospace", fontSize: "0.65rem", letterSpacing: "0.15em",
+              color: "rgba(255,255,255,0.2)",
             }}>
-              04 &mdash;
+              04
             </span>
+            <div style={{ height: "1px", width: "40px", background: "rgba(255,255,255,0.1)" }} />
             <h2 style={{
               fontFamily: "'Playfair Display', Georgia, serif",
-              fontSize: "1.25rem", fontWeight: 700, color: "rgba(240,240,240,0.85)", margin: 0,
+              fontSize: "1.4rem", fontWeight: 700, color: "rgba(240,240,240,0.9)", margin: 0, letterSpacing: "-0.01em"
             }}>
               Skills
             </h2>
           </div>
 
           {/* Category filter */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "20px" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "28px" }}>
             {skillCategories.map(cat => (
               <button
                 key={cat}
                 onClick={() => setActiveSkillCat(cat)}
                 style={{
-                  fontFamily:    "var(--font-mono)",
-                  fontSize:      "0.65rem",
-                  letterSpacing: "0.06em",
-                  padding:       "5px 14px",
+                  fontFamily:    "'DM Sans', sans-serif",
+                  fontSize:      "0.7rem",
+                  fontWeight:    activeSkillCat === cat ? 600 : 500,
+                  letterSpacing: "0.04em",
+                  padding:       "8px 18px",
                   borderRadius:  "9999px",
-                  border:        `1px solid ${activeSkillCat === cat ? "rgba(255,255,255,0.5)" : "var(--border-mid)"}`,
-                  background:    activeSkillCat === cat ? "rgba(255,255,255,0.1)" : "var(--bg-card)",
-                  color:         activeSkillCat === cat ? "var(--text)" : "var(--text-muted)",
+                  border:        `1px solid ${activeSkillCat === cat ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.1)"}`,
+                  background:    activeSkillCat === cat ? "#ffffff" : "rgba(20,20,20,0.5)",
+                  color:         activeSkillCat === cat ? "#000000" : "rgba(200,200,200,0.6)",
                   cursor:        "pointer",
-                  transition:    "all 0.2s ease",
-                  textTransform: "uppercase",
+                  transition:    "all 0.3s cubic-bezier(0.32, 0.72, 0, 1)",
+                  boxShadow:     activeSkillCat === cat ? "0 4px 14px rgba(255,255,255,0.25)" : "none",
+                }}
+                onMouseEnter={e => {
+                  if (activeSkillCat !== cat) {
+                    e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+                    e.currentTarget.style.color = "#ffffff";
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (activeSkillCat !== cat) {
+                    e.currentTarget.style.background = "rgba(20,20,20,0.5)";
+                    e.currentTarget.style.color = "rgba(200,200,200,0.6)";
+                  }
                 }}
               >
                 {cat}
@@ -363,11 +471,12 @@ export default function AboutPage() {
           {/* Skills grid */}
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
-            gap: "8px",
+            gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+            gap: "12px",
           }}>
-            {filteredSkills.map((skill, i) => (
-              <SkillCard key={skill.name} skill={skill} index={i} />
+            {/* Added a key tied to activeSkillCat to re-trigger stagger animations on filter switch */}
+            {mounted && filteredSkills.map((skill, i) => (
+              <SkillCard key={`${activeSkillCat}-${skill.name}`} skill={skill} index={i} />
             ))}
           </div>
         </div>
