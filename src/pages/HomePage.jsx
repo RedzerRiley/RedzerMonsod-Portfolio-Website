@@ -541,9 +541,12 @@ function ScrollProjects() {
         >
           <div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.67rem", letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(240,240,240,0.22)", margin: "0 0 10px" }}></p>
-            <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: "clamp(1.6rem, 3vw, 2.4rem)", color: "rgba(240,240,240,0.9)", margin: 0, letterSpacing: "-0.01em", lineHeight: 1.15 }}>
-              Projects &amp; Contests
-            </h2>
+            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+              <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 800, fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.02em", lineHeight: 1, color: "rgba(240,240,240,0.92)", margin: 0 }}>
+                Projects &amp; Contests
+              </h2>
+              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", color: "rgba(255,255,255,0.22)", lineHeight: 1, marginTop: "4px" }}>↘</span>
+            </div>
           </div>
           <NavLink
             to="/projects"
@@ -661,4 +664,4 @@ export default function HomePage() {
       <ScrollProjects />
     </div>
   );
-} 
+}

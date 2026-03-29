@@ -32,7 +32,7 @@ const socials = [
 
 const navLinks = [
   { to: "/about",      label: "about"      },
-  { to: "/experience", label: "experience" },
+  // { to: "/experience", label: "experience" },
   { to: "/projects",   label: "projects"   },
   { to: "/contact",    label: "contact"    },
 ];
@@ -95,18 +95,20 @@ export default function Footer() {
           <NavLink
             to="/"
             style={{
-              fontFamily:    "'Playfair Display', Georgia, serif",
+              fontFamily:    "var(--font-mono)",
+              fontSize:      "0.85rem",
               fontWeight:    700,
-              fontSize:      "1.15rem",
-              letterSpacing: "-0.01em",
+              letterSpacing: "0.04em",
               color:         "rgba(240,240,240,0.75)",
               textDecoration:"none",
-              transition:    "color 0.2s",
+              whiteSpace:    "nowrap",
+              flexShrink:    0,
+              transition:    "color 0.2s ease, opacity 0.2s ease",
             }}
             onMouseEnter={e => e.currentTarget.style.color = "rgba(240,240,240,1)"}
             onMouseLeave={e => e.currentTarget.style.color = "rgba(240,240,240,0.75)"}
           >
-            Redzer<em style={{ fontStyle: "italic", color: "rgba(200,200,200,0.4)" }}></em>
+            Redzer
           </NavLink>
 
           {/* Nav links */}

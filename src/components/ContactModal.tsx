@@ -95,8 +95,8 @@ export default function ContactModal({ isOpen, onClose }) {
           {/* Header */}
           <div className="p-6 border-b border-[var(--border)] flex justify-between items-start">
             <div>
-              <p className="font-mono text-xs text-[var(--text-faint)] mb-1">// say_hello()</p>
-              <h2 className="font-bold text-lg text-[var(--text)]">leave_a_message()</h2>
+              <p className="font-mono text-xs text-[var(--text-faint)] mb-1"></p>
+              <h2 className="font-bold text-lg text-[var(--text)]">Leave a message</h2>
             </div>
             <button 
               onClick={onClose} 
@@ -117,20 +117,20 @@ export default function ContactModal({ isOpen, onClose }) {
             ) : (
               <form onSubmit={onSubmit} className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5">
-                  <label className="font-mono text-xs text-[var(--text-faint)]">const your_name =</label>
+                  <label className="font-mono text-xs text-[var(--text-faint)]">Your name</label>
                   <input type="text" name="name" value={form.name} onChange={onChange} required style={inputStyle} placeholder="John Doe" />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="font-mono text-xs text-[var(--text-faint)]">const your_email =</label>
+                  <label className="font-mono text-xs text-[var(--text-faint)]">Your email</label>
                   <input type="email" name="email" value={form.email} onChange={onChange} required style={inputStyle} placeholder="john@example.com" />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="font-mono text-xs text-[var(--text-faint)]">const message =</label>
+                  <label className="font-mono text-xs text-[var(--text-faint)]">Message</label>
                   <textarea name="message" value={form.message} onChange={onChange} required rows={4} style={{...inputStyle, resize: 'none'}} placeholder="How can I help?" />
                 </div>
                 {error && <p className="text-red-400 font-mono text-xs">// error: {error}</p>}
                 <button type="submit" disabled={loading} className="btn-primary w-full py-3 text-xs">
-                  {loading ? "sending..." : "submit()"}
+                  {loading ? "sending..." : "Submit"}
                 </button>
               </form>
             )}
