@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Resolves the correct simple-icons CDN URL for a given slug and brand color
 function SimpleIcon({ slug, color, size = 22 }) {
   const [errored, setErrored] = useState(false);
+
+  // Reset error state if slug or color changes (fixes the GitHub hover bug)
+  useEffect(() => {
+    setErrored(false);
+  }, [slug, color]);
 
   if (errored) {
     // Fallback: first two letters of the slug
@@ -28,14 +33,37 @@ function SimpleIcon({ slug, color, size = 22 }) {
     );
   }
 
+  // Ensure color is a valid hex for the CDN
+  const isHex = /^#?[0-9A-Fa-f]{3,6}$/i.test(color);
+  const safeColor = isHex ? color.replace("#", "") : "808080";
+  
+  let finalSlug = slug.toLowerCase();
+  let src = `https://cdn.simpleicons.org/${finalSlug}/${safeColor}`;
+
+  // Fix known problematic slugs
+  if (finalSlug === "aws") {
+    src = `https://cdn.simpleicons.org/amazonaws/${safeColor}`;
+  } else if (finalSlug === "java") {
+    // SimpleIcons removed Java. Use Devicon fallback.
+    src = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg";
+  }
+
   return (
     <img
-      src={`https://cdn.simpleicons.org/${slug}/${color.replace("#", "")}`}
+      src={src}
       alt={slug}
       width={size}
       height={size}
       onError={() => setErrored(true)}
-      style={{ display: "block", flexShrink: 0 }}
+      style={{ 
+        display: "block", 
+        flexShrink: 0,
+        transition: "filter .22s",
+        // Apply grayscale to the Java Devicon when it's not hovered
+        filter: finalSlug === "java" && (!isHex || safeColor.toLowerCase() === "808080") 
+          ? "grayscale(100%) opacity(50%)" 
+          : "none"
+      }}
     />
   );
 }
@@ -73,7 +101,7 @@ export default function SkillCard({ skill, index }) {
         justifyContent: "center",
         transition: "background .22s, border-color .22s",
       }}>
-        <SimpleIcon slug={skill.icon} color={hovered ? skill.color : "808080"} size={18} />
+        <SimpleIcon slug={skill.icon} color={hovered ? skill.color : "#a1a1aa"} size={18} />
       </div>
 
       {/* Name + category */}
