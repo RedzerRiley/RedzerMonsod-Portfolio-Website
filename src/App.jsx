@@ -118,7 +118,7 @@ export default function App() {
         <Navbar />
         <main className="page-content">
           <Routes>
-            <Route path="/"         element={<HomePage />}      />
+            <Route path="/"         element={<HomePage isIntroScreenRunning={showIntro} />}      />
             <Route path="/about"    element={<AboutPage />}     />
             <Route path="/projects" element={<ProjectsPage />}  />
             <Route path="/contact"  element={<ContactPage />}   />
