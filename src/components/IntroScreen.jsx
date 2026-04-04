@@ -5,16 +5,16 @@ export default function IntroScreen({ onFadeStart, onComplete }) {
   const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase("in"),   100);
-    const t2 = setTimeout(() => setPhase("hold"), 800);
+    const t1 = setTimeout(() => setPhase("in"),   50);
+    const t2 = setTimeout(() => setPhase("hold"), 300);
     const t3 = setTimeout(() => {
       setPhase("exit");
       setExiting(true);
       if (onFadeStart) onFadeStart();
-    }, 1800); // Slightly faster exit so the user isn't waiting
+    }, 700); 
     const t4 = setTimeout(() => {
       if (onComplete) onComplete();
-    }, 2500);
+    }, 1100);
     return () => [t1, t2, t3, t4].forEach(clearTimeout);
   }, [onFadeStart, onComplete]);
 

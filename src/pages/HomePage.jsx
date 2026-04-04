@@ -396,7 +396,7 @@ function ProjectRow({ project, index }) {
 
   const description = project.description || project.summary || "A full-stack project built with modern technologies, focused on clean architecture and great user experience.";
   const stack = project.stack || project.tech || [];
-  const year = project.year || project.period || "2026";
+  const year = project.year || project.period || "";
   const org = project.company || project.org || "";
   const link = project.link || project.url || "#";
   const videoFile = project.video;
@@ -615,7 +615,7 @@ function ScrollProjects() {
 function IntroSequence({ onComplete, isWaiting }) {
   const [displayed, setDisplayed] = useState("");
   const [fadingOut, setFadingOut] = useState(false);
-  const fullText = "Hello, my name is Red. Nice to meet you.";
+  const fullText = "Hello, my name is Red. Nice to meet you!";
 
   useEffect(() => {
     if (isWaiting) return;

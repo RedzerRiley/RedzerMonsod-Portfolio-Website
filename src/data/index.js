@@ -34,6 +34,7 @@ export const projects = [
     video: "rentcheck.mp4",
     subtitle: "Rental Management System",
     context: "Software Engineering 1",
+    year: "2026",
     link: "https://rentcheck-6a7ec.web.app/",
     repo: "https://github.com/RedzerRiley/RentCheck", // ← add your repo URL here
     description:
@@ -55,6 +56,7 @@ export const projects = [
     video: "sk-esperanzailaya.mp4",
     subtitle: "CRUD Web Page for SK Barangay Esperanza Ilaya",
     context: "Web Systems 2",
+    year: "2026",
     link: "https://sk-esperanzailaya.up.railway.app/index.php",
     repo: "https://github.com/RedzerRiley/CRUD-Web-Page-for-SK-Brgy-Esperanza-Ilaya", // ← add your repo URL here
     description:
@@ -75,6 +77,7 @@ export const projects = [
     image: "huawei-ict.png",
     subtitle: "Participant in Huawei's annual ICT competition in the Networking Track",
     context: "Huawei ICT Competition 2025",
+    year: "2025",
     link: null,
     repo: null, // no repo for this one
     description:
@@ -95,6 +98,7 @@ export const projects = [
     video: "oratio.mp4",
     subtitle: "A mobile app for Catholic prayer and devotion",
     context: "Personal Project",
+    year: "2026",
     link: "https://oratio-317ac.web.app/auth",
     repo: "https://github.com/RedzerRiley/Oratio-Catholic-Prayer-and-Journal-App", // ← add your repo URL here
     description:
