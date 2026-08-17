@@ -34,7 +34,7 @@ export const projects = [
     video: "rentcheck.mp4",
     subtitle: "Rental Management System",
     context: "Software Engineering 1",
-    year: "2026",
+    
     link: "https://rentcheck-6a7ec.web.app/",
     repo: "https://github.com/RedzerRiley/RentCheck", // ← add your repo URL here
     description:
@@ -56,7 +56,7 @@ export const projects = [
     video: "sk-esperanzailaya.mp4",
     subtitle: "CRUD Web Page for SK Barangay Esperanza Ilaya",
     context: "Web Systems 2",
-    year: "2026",
+    
     link: "https://sk-esperanzailaya.up.railway.app/index.php",
     repo: "https://github.com/RedzerRiley/CRUD-Web-Page-for-SK-Brgy-Esperanza-Ilaya", // ← add your repo URL here
     description:
@@ -77,7 +77,7 @@ export const projects = [
     image: "huawei-ict.png",
     subtitle: "Participant in Huawei's annual ICT competition in the Networking Track",
     context: "Huawei ICT Competition 2025",
-    year: "2025",
+    
     link: null,
     repo: null, // no repo for this one
     description:
@@ -98,7 +98,7 @@ export const projects = [
     video: "oratio.mp4",
     subtitle: "A mobile app for Catholic prayer and devotion",
     context: "Personal Project",
-    year: "2026",
+    
     link: "https://oratio-317ac.web.app/auth",
     repo: "https://github.com/RedzerRiley/Oratio-Catholic-Prayer-and-Journal-App", // ← add your repo URL here
     description:
@@ -112,13 +112,71 @@ export const projects = [
     color: "#8b5cf6",
     accent: "#c4b5fd",
   },
+    {
+    id: 5,
+    title: "Alumna AI - KPMG Philippines Academic Innovation Challenge",
+    image: "alumna-ai.png",
+    video: "alumna-ai.mp4",
+    subtitle: "AI-Powered Study Planning Assistant",
+    context: "KPMG Philippines Academic Innovation Challenge",
+    
+    link: null,
+    repo: null,
+    description:
+      "An AI-powered study planning assistant designed to help students organize academic tasks through intelligent scheduling, automated reminders, and a centralized dashboard.",
+    highlights: [
+      "Designed an AI-powered study planning assistant using Microsoft Copilot Studio",
+      "Built Power Automate workflows for dynamic task scheduling and automated reminders",
+      "Developed a centralized Power Apps dashboard for managing academic tasks",
+      "Collaborated with a multidisciplinary team during the KPMG Philippines Academic Innovation Challenge",
+    ],
+    stack: [
+      "Microsoft Copilot Studio",
+      "Power Automate",
+      "Power Apps",
+      "AI",
+    ],
+    color: "#f59e0b",
+    accent: "#fcd34d",
+  },
+
+  {
+    id: 6,
+    title: "Unified Internship Workflow Management Platform",
+    image: "internship-workflow.png",
+    video: "internship-workflow.mp4",
+    subtitle: "Internship Workflow & Management Platform",
+    context: "Pru Life UK - Black Orcas Summit Life Agency",
+    
+    link: null,
+    repo: null,
+    description:
+      "A proposed internship workflow management platform designed to centralize attendance, tasks, communication, and internship coordination into a unified system.",
+    highlights: [
+      "Designed the system architecture for an integrated internship workflow platform",
+      "Planned attendance, task management, and communication workflows",
+      "Proposed a React, Express.js, MongoDB, and JWT-based application architecture",
+      "Planned Google Workspace integrations to streamline internship workflows",
+      "Designed role-based access control for different platform users",
+    ],
+    stack: [
+      "React",
+      "Express.js",
+      "MongoDB",
+      "JWT",
+      "Google Workspace",
+      "RBAC",
+    ],
+    color: "#14b8a6",
+    accent: "#5eead4",
+  },
 ];
 
 // ── Experience ────────────────────────────────────────────────
 export const experience = [
   {
     id: 1,
-    role: "Software Developer Intern",
+    role: "Software Engineer Intern",
     image: "cloudswyft.png",
     company: "Cloudswyft",
     location: "Philippines",
@@ -135,6 +193,37 @@ export const experience = [
     stack: ["React", "Tailwind CSS", "Django", "OpenedX", "GitHub", "REST APIs", "MySQL", "PostgreSQL", "WSL2 (Ubuntu)", "Docker", "MongoDB", "Tutor"],
     color: "#10b981",
   },
+
+ {
+  id: 2,
+  role: "Fullstack Developer Head Intern",
+  image: "internship-workflow.png",
+  company: "Pru Life UK - Black Orcas Summit Life Insurance Agency",
+  location: "Philippines",
+  period: "April 2026 - Aug 2026",
+  type: "Internship",
+  bullets: [
+    "Developed full-stack features for an internal Daily Time Record (DTR) platform using React, Express, and MongoDB.",
+    "Built Docker-based development environments, improving project setup efficiency by ~40%.",
+    "Delivered 21 production features across the platform while maintaining structured Git workflows.",
+    "Performed 20 code reviews, helping maintain code quality and consistency across the development team.",
+    "Promoted to Head Intern, onboarding and mentoring new interns while coordinating development activities.",
+    "Led quality assurance (QA) testing and coordinated deployment of the internal DTR platform.",
+  ],
+  stack: [
+    "React",
+    "Express.js",
+    "MongoDB",
+    "JavaScript",
+    "Docker",
+    "Git",
+    "GitHub",
+    "REST APIs",
+    "QA Testing",
+    "CI/CD"
+  ],
+  color: "#10b981",
+}
 ];
 
 // ── Education ─────────────────────────────────────────────────

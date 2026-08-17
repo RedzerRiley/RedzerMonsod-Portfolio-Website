@@ -611,78 +611,35 @@ function ScrollProjects() {
   );
 }
 
-// ── Intro Sequence ──────────────────────────────────────────────
-function IntroSequence({ onComplete, isWaiting }) {
-  const [displayed, setDisplayed] = useState("");
-  const [fadingOut, setFadingOut] = useState(false);
-  const fullText = "Hello, my name is Red. Nice to meet you!";
-
-  useEffect(() => {
-    if (isWaiting) return;
-    if (displayed.length < fullText.length) {
-      const t = setTimeout(() => setDisplayed(fullText.slice(0, displayed.length + 1)), 40);
-      return () => clearTimeout(t);
-    } else {
-      const t = setTimeout(() => setFadingOut(true), 1200);
-      return () => clearTimeout(t);
-    }
-  }, [displayed, isWaiting]);
-
-  useEffect(() => {
-    if (fadingOut) {
-      const t = setTimeout(() => onComplete(), 700);
-      return () => clearTimeout(t);
-    }
-  }, [fadingOut, onComplete]);
-
-  return (
-    <div style={{
-      position: "absolute", inset: 0, zIndex: 10, display: "flex", alignItems: "center", justifyContent: "center",
-      padding: "0 8%",
-      opacity: fadingOut ? 0 : 1, transition: "opacity 0.7s ease"
-    }}>
-      <h1 style={{
-        fontFamily: "'Playfair Display', Georgia, serif",
-        fontWeight: 800,
-        fontSize: "clamp(2.4rem, 6.5vw, 5.2rem)",
-        lineHeight: 1.1,
-        letterSpacing: "-0.01em",
-        color: "#f0f0f0",
-        textAlign: "center",
-        margin: 0,
-        textShadow: "0 -2px 40px rgba(255,255,255,0.18), 0 0 80px rgba(255,255,255,0.08)"
-      }}>
-        {displayed}
-        <span style={{
-          display: "inline-block", width: "3px", height: "0.85em", background: "rgba(230,230,230,0.7)", marginLeft: "4px", verticalAlign: "middle", borderRadius: "1px", animation: "cursorBlink 1s step-end infinite"
-        }} />
-      </h1>
-    </div>
-  );
-}
-
 // ── Hero ──────────────────────────────────────────────────────
-export default function HomePage({ isIntroScreenRunning }) {
-  const [showMainContent, setShowMainContent] = useState(false);
+export default function HomePage() {
   return (
     <div>
       <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "148px 20px 60px", overflow: "hidden" }}>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=DM+Sans:wght@300;400;500;600&display=swap" />
 
         <style>{`
-          @keyframes framePop {
-            0%   { opacity: 0; transform: translateY(60px) scale(0.94); }
-            60%  { opacity: 1; transform: translateY(-6px) scale(1.01); }
-            80%  { transform: translateY(3px) scale(0.995); }
-            100% { transform: translateY(0) scale(1); }
+          @keyframes frameReveal {
+            0%   { opacity: 0; transform: translateY(36px) scale(0.965); filter: blur(14px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+          }
+          @keyframes chromeIn {
+            0%   { opacity: 0; transform: scale(0.4); }
+            100% { opacity: 1; transform: scale(1); }
+          }
+          @keyframes sweep {
+            0%   { transform: translateX(-120%) skewX(-12deg); opacity: 0; }
+            10%  { opacity: 1; }
+            85%  { opacity: 1; }
+            100% { transform: translateX(220%) skewX(-12deg); opacity: 0; }
           }
           @keyframes orbPulse {
             0%,100% { opacity: 1;    transform: translateX(-50%) scale(1);    }
             50%     { opacity: 0.65; transform: translateX(-50%) scale(0.92); }
           }
           @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(20px); filter: blur(6px); }
+            to   { opacity: 1; transform: translateY(0); filter: blur(0px); }
           }
           @keyframes cursorBlink {
             0%, 100% { opacity: 1; }
@@ -698,14 +655,19 @@ export default function HomePage({ isIntroScreenRunning }) {
         <div style={{ position: "absolute", top: "100px", left: "50%", transform: "translateX(-50%)", width: "800px", height: "800px", borderRadius: "50%", background: "radial-gradient(circle, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 45%, transparent 70%)", filter: "blur(40px)", pointerEvents: "none", zIndex: 0, animation: "orbPulse 6s ease-in-out infinite" }} />
 
         {/* macOS frame */}
-        <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "1180px", borderRadius: "14px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 0 0 1px rgba(255,255,255,0.05) inset, 0 40px 130px rgba(0,0,0,0.9), 0 0 100px rgba(255,255,255,0.05)", background: "rgba(13,13,13,0.97)", animation: "framePop 1.1s cubic-bezier(0.22,1,0.36,1) both", animationDelay: "0.1s" }}>
+        <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "1180px", borderRadius: "14px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 0 0 1px rgba(255,255,255,0.05) inset, 0 40px 130px rgba(0,0,0,0.9), 0 0 100px rgba(255,255,255,0.05)", background: "rgba(13,13,13,0.97)", animation: "frameReveal 1.4s cubic-bezier(0.16,1,0.3,1) both", animationDelay: "0.15s" }}>
+
+          {/* Light sweep across the glass, once on load */}
+          <div style={{ position: "absolute", inset: 0, zIndex: 6, pointerEvents: "none", overflow: "hidden" }}>
+            <div style={{ position: "absolute", top: 0, left: 0, width: "35%", height: "160%", background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent)", animation: "sweep 2.4s cubic-bezier(0.16,1,0.3,1) both", animationDelay: "1.5s" }} />
+          </div>
 
           {/* Title bar */}
           <div style={{ height: "44px", background: "linear-gradient(180deg, #2a2a2a 0%, #1e1e1e 100%)", borderBottom: "1px solid rgba(255,255,255,0.07)", display: "flex", alignItems: "center", padding: "0 16px", gap: "8px" }}>
-            <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#ff5f56", display: "block", flexShrink: 0 }} />
-            <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#ffbd2e", display: "block", flexShrink: 0 }} />
-            <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#27c93f", display: "block", flexShrink: 0 }} />
-            <div style={{ marginLeft: "auto", width: "22px", height: "22px", borderRadius: "5px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.3)", fontSize: "16px", lineHeight: 1, flexShrink: 0 }}>+</div>
+            <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#ff5f56", display: "block", flexShrink: 0, animation: "chromeIn 0.6s cubic-bezier(0.16,1,0.3,1) both", animationDelay: "1.0s" }} />
+            <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#ffbd2e", display: "block", flexShrink: 0, animation: "chromeIn 0.6s cubic-bezier(0.16,1,0.3,1) both", animationDelay: "1.12s" }} />
+            <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#27c93f", display: "block", flexShrink: 0, animation: "chromeIn 0.6s cubic-bezier(0.16,1,0.3,1) both", animationDelay: "1.24s" }} />
+            <div style={{ marginLeft: "auto", width: "22px", height: "22px", borderRadius: "5px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.3)", fontSize: "16px", lineHeight: 1, flexShrink: 0, animation: "chromeIn 0.6s cubic-bezier(0.16,1,0.3,1) both", animationDelay: "1.36s" }}>+</div>
           </div>
 
           {/* Frame body */}
@@ -714,49 +676,43 @@ export default function HomePage({ isIntroScreenRunning }) {
             {/* Inner orb glow */}
             <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "85%", height: "85%", borderRadius: "50%", background: "radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.035) 40%, transparent 70%)", filter: "blur(48px)", pointerEvents: "none", zIndex: 0 }} />
 
-            {!showMainContent && <IntroSequence isWaiting={isIntroScreenRunning} onComplete={() => setShowMainContent(true)} />}
+            {/* Headline */}
+            <div style={{ position: "relative", zIndex: 1, animation: "fadeUp 1.1s cubic-bezier(0.16,1,0.3,1) both", animationDelay: "1.6s" }}>
+              <TypingHeadline />
+            </div>
 
-            {showMainContent && (
-              <>
-                {/* Headline */}
-                <div style={{ position: "relative", zIndex: 1, animation: "fadeUp 0.8s cubic-bezier(0.22,1,0.36,1) both", animationDelay: "0.1s" }}>
-                  <TypingHeadline />
+            {/* Bottom row */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "28px", position: "relative", zIndex: 1, marginTop: "clamp(36px, 6vw, 64px)", animation: "fadeUp 1.1s cubic-bezier(0.16,1,0.3,1) both", animationDelay: "1.85s" }}>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <div style={{ maxWidth: "380px", textAlign: "left" }}>
+                  <p style={{ fontFamily: "'DM Sans', system-ui, sans-serif", fontSize: "clamp(0.85rem, 1.6vw, 1rem)", fontWeight: 500, color: "rgba(240,240,240,0.9)", margin: "0 0 4px 0", lineHeight: 1.5 }}>
+                    Computer Science student at <span style={{ color: "rgba(240,240,240,0.9)" }}>Mapúa University.</span>
+                  </p>
+                  <p style={{ fontFamily: "'DM Sans', system-ui, sans-serif", fontSize: "clamp(0.78rem, 1.4vw, 0.9rem)", fontWeight: 400, color: "rgba(200,200,200,0.5)", margin: 0, lineHeight: 1.5 }}>
+                    Formerly at CloudSwyft. Based in San Pedro, Laguna.
+                  </p>
                 </div>
+              </div>
 
-                {/* Bottom row */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "28px", position: "relative", zIndex: 1, marginTop: "clamp(36px, 6vw, 64px)", animation: "fadeUp 0.8s cubic-bezier(0.22,1,0.36,1) both", animationDelay: "0.3s" }}>
-                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <div style={{ maxWidth: "380px", textAlign: "left" }}>
-                      <p style={{ fontFamily: "'DM Sans', system-ui, sans-serif", fontSize: "clamp(0.85rem, 1.6vw, 1rem)", fontWeight: 500, color: "rgba(240,240,240,0.9)", margin: "0 0 4px 0", lineHeight: 1.5 }}>
-                        Computer Science student at <span style={{ color: "rgba(240,240,240,0.9)" }}>Mapúa University.</span>
-                      </p>
-                      <p style={{ fontFamily: "'DM Sans', system-ui, sans-serif", fontSize: "clamp(0.78rem, 1.4vw, 0.9rem)", fontWeight: 400, color: "rgba(200,200,200,0.5)", margin: 0, lineHeight: 1.5 }}>
-                        Formerly at CloudSwyft. Based in San Pedro, Laguna.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", alignItems: "center" }}>
-                    <GlowButton href="https://github.com/RedzerRiley" primary>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z" /></svg>
-                      github ↗
-                    </GlowButton>
-                    <GlowButton href="https://www.linkedin.com/in/redzer-monsod-bb4309296/">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
-                      linkedin ↗
-                    </GlowButton>
-                    <GlowButton href="https://www.facebook.com/redzer.monsod.5">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
-                      facebook ↗
-                    </GlowButton>
-                    <GlowButton href={resumePdf} download="Redzer_Monsod_Resume.pdf">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
-                      resume ↗
-                    </GlowButton>
-                  </div>
-                </div>
-              </>
-            )}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", alignItems: "center" }}>
+                <GlowButton href="https://github.com/RedzerRiley" primary>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z" /></svg>
+                  github ↗
+                </GlowButton>
+                <GlowButton href="https://www.linkedin.com/in/redzer-monsod-bb4309296/">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+                  linkedin ↗
+                </GlowButton>
+                <GlowButton href="https://www.facebook.com/redzer.monsod.5">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
+                  facebook ↗
+                </GlowButton>
+                <GlowButton href={resumePdf} download="Redzer_Monsod_Resume.pdf">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+                  resume ↗
+                </GlowButton>
+              </div>
+            </div>
           </div>
         </div>
       </section>

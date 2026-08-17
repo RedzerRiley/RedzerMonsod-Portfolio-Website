@@ -1,0 +1,232 @@
+/* ============================================================
+   ProjectsPage.css — editorial catalog layout
+   A sequential list of case studies, not a grid of cards.
+   ============================================================ */
+
+.projects {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 136px 24px 120px;
+}
+
+/* ── Header ── */
+.projects-head {
+  margin-bottom: 88px;
+  max-width: 640px;
+}
+
+.projects-head__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2.75rem, 6.5vw, 4.5rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--text);
+  margin: 0 0 18px;
+}
+
+.projects-head__meta {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Project list ── */
+.project-list {
+  border-top: 1px solid var(--border);
+}
+
+.project {
+  padding: 56px 0;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.project:first-child {
+  padding-top: 0;
+}
+
+.project--reverse .project__media {
+  order: 2;
+}
+
+/* ── Media ── */
+.project__media {
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.project__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  filter: grayscale(35%);
+  transition: filter 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project__media:hover img {
+  filter: grayscale(0%);
+  transform: scale(1.03);
+}
+
+.project__media--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--text-faint);
+  text-align: center;
+  padding: 24px;
+}
+
+/* ── Content ── */
+.project__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 6px;
+}
+
+.project__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 1.7rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.project__featured {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+.project__year {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.project__context {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  margin: 0 0 20px;
+}
+
+.project__desc {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin: 0 0 18px;
+  max-width: 46ch;
+}
+
+.project__highlights {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+}
+
+.project__highlights li {
+  position: relative;
+  padding-left: 16px;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: var(--text-faint);
+  margin-bottom: 6px;
+}
+
+.project__highlights li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--text-faint);
+}
+
+.project__stack {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-faint);
+  margin: 0 0 22px;
+}
+
+.project__links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.project__links a {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-mid);
+  padding-bottom: 2px;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.project__links a:hover {
+  border-color: var(--highlight);
+  color: var(--highlight);
+}
+
+.project__links span {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-faint);
+}
+
+/* ── Closing line (replaces the dashed "coming soon" card) ── */
+.projects-more {
+  padding: 44px 0 0;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-faint);
+}
+
+.projects-more strong {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ── Responsive ── */
+@media (max-width: 780px) {
+  .projects {
+    padding-top: 116px;
+  }
+  .projects-head {
+    margin-bottom: 56px;
+  }
+  .project {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 40px 0;
+  }
+  .project--reverse .project__media {
+    order: 0;
+  }
+}

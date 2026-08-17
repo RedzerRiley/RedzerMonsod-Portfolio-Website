@@ -1,0 +1,423 @@
+/* ============================================================
+   AboutPage.css — editorial layout
+   Typography- and whitespace-driven; one accent (--highlight).
+   ============================================================ */
+
+.about {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 136px 24px 120px;
+}
+
+/* ── Shared label styles ──
+   Two registers only, used deliberately:
+   .about-kicker  — mono/caps, for reference-style content (Details, Skills)
+   .about-title   — italic serif, for narrative content (Education) */
+.about-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 20px;
+}
+
+.about-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.35rem;
+  color: var(--text-muted);
+  margin: 0 0 28px;
+}
+
+/* ── Masthead ──
+   Name is the only dominant object. Photo drops to a small
+   supporting mark inside the byline, not a competing column. */
+.about-masthead {
+  margin-bottom: 84px;
+}
+
+.about-role {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0 0 6px;
+}
+
+.about-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(3.1rem, 9vw, 6.4rem);
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0;
+}
+
+.about-name em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.about-byline {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-faint);
+}
+
+.about-byline__photo {
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border-mid);
+  background: var(--bg-surface);
+  flex-shrink: 0;
+}
+
+.about-byline__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(30%);
+}
+
+.about-byline__sep {
+  color: var(--text-ghost);
+}
+
+.about-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+}
+
+.about-status__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--highlight);
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+/* ── Intro: prose + spec sheet ── */
+.about-intro {
+  margin-bottom: 84px;
+}
+
+.about-intro__grid {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.about-prose__body p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--text-muted);
+  max-width: 58ch;
+  margin: 0 0 22px;
+}
+
+.about-prose__body p:last-child {
+  margin-bottom: 0;
+}
+
+.about-prose__body strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.about-specs__label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 14px;
+}
+
+.about-specs {
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+
+.about-specs__row {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.about-specs__row dt {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.about-specs__row dd {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text);
+  margin: 0;
+  word-break: break-word;
+}
+
+/* ── Education timeline ── */
+.about-education {
+  margin-bottom: 84px;
+}
+
+.about-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.about-timeline::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: var(--border-mid);
+}
+
+.about-timeline__item {
+  position: relative;
+  padding-left: 32px;
+  padding-bottom: 28px;
+}
+
+.about-timeline__item:last-child {
+  padding-bottom: 0;
+}
+
+.about-timeline__marker {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--border-mid);
+}
+
+.about-timeline__item.is-active .about-timeline__marker {
+  background: var(--highlight);
+  border-color: var(--highlight);
+}
+
+.about-timeline__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.about-timeline__row h3 {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.about-timeline__item.is-active .about-timeline__row h3 {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.about-timeline__period {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.about-timeline__meta {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--text-faint);
+  margin: 4px 0 0;
+}
+
+.about-timeline__tag {
+  color: var(--highlight);
+}
+
+/* ── Skills ── */
+.about-skills__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+  margin-bottom: 28px;
+}
+
+.about-skills__head .about-kicker {
+  margin: 0;
+}
+
+.about-skills__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+}
+
+.about-tab {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  background: none;
+  border: none;
+  padding: 2px 0 4px;
+  color: var(--text-faint);
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.about-tab:hover {
+  color: var(--text-muted);
+}
+
+.about-tab.is-active {
+  color: var(--text);
+  border-color: var(--highlight);
+}
+
+/* Grouped ("All") view — a single flowing index in columns,
+   like a book glossary, so uneven category lengths never leave
+   orphaned gaps. No icons here — with 20+ items on screen at
+   once, icons add noise, not information. */
+.about-skill-groups {
+  column-count: 3;
+  column-gap: 48px;
+}
+
+.about-skill-group {
+  break-inside: avoid;
+  margin-bottom: 26px;
+}
+
+.about-skill-group__label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.about-skill--plain {
+  padding: 5px 0;
+  border-bottom: none;
+}
+
+.about-skill--plain .about-skill__name {
+  color: var(--text-muted);
+}
+
+/* Flat (single-category) view — fewer items on screen, so a
+   brand mark next to each name earns its place here. */
+.about-skills__list--flat {
+  column-count: 2;
+  column-gap: 40px;
+  border-top: 1px solid var(--border);
+}
+
+.about-skill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  break-inside: avoid;
+}
+
+.about-skill__icon {
+  display: flex;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.about-skill:hover .about-skill__icon {
+  opacity: 1;
+}
+
+.about-skill__name {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.about-skill:hover .about-skill__name {
+  color: var(--text);
+}
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .about {
+    padding-top: 116px;
+  }
+  .about-masthead {
+    margin-bottom: 64px;
+  }
+  .about-name {
+    font-size: clamp(2.3rem, 11vw, 3.2rem);
+  }
+  .about-intro,
+  .about-education {
+    margin-bottom: 64px;
+  }
+  .about-intro__grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .about-specs {
+    order: -1;
+  }
+  .about-skill-groups {
+    column-count: 2;
+  }
+  .about-skills__list--flat {
+    column-count: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .about-skill-groups {
+    column-count: 1;
+  }
+  .about-skills__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
