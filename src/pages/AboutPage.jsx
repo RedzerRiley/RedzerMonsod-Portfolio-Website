@@ -85,7 +85,7 @@ export default function AboutPage() {
           photo is a small supporting mark inside the byline, not
           a competing column — no even split, no info-card feel. */}
       <header className="about-masthead">
-        <p className="about-role">Fullstack Developer · CS Student · Mapúan</p>
+        {/* <p className="about-role"></p> */}
         <h1 className="about-name">
           Redzer Riley <em>Monsod</em>
         </h1>
