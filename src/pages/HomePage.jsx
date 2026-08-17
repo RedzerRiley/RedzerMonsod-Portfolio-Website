@@ -689,7 +689,7 @@ export default function HomePage() {
                     Computer Science student at <span style={{ color: "rgba(240,240,240,0.9)" }}>Mapúa University.</span>
                   </p>
                   <p style={{ fontFamily: "'DM Sans', system-ui, sans-serif", fontSize: "clamp(0.78rem, 1.4vw, 0.9rem)", fontWeight: 400, color: "rgba(200,200,200,0.5)", margin: 0, lineHeight: 1.5 }}>
-                    Fullstack Developer Head Intern at Pru Life UK, Ex SWE at CloudSwyft. Based in San Pedro, Laguna.
+                    Fullstack Developer Head Intern at Pru Life UK. Based in San Pedro, Laguna.
                   </p>
                 </div>
               </div>
