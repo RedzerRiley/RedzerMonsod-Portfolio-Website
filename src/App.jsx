@@ -11,7 +11,7 @@ import AboutPage    from "./pages/AboutPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage  from "./pages/ContactPage";
 
-import { usePageTransition } from "./hooks/usePageTransition";
+import { usePageTransition } from "./hooks/usepageTransition";
 
 // ── Cursor glow ───────────────────────────────────────────────
 function CursorGlow() {
