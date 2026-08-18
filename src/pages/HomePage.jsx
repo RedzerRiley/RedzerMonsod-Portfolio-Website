@@ -309,7 +309,7 @@ function CompanyLogo({ job, size = 56, hovered }) {
     >
       {job.logo ? (
         <img
-          src={job.logo}
+          src={`./images/logos/${job.logo}`} // Added the dot here
           alt={job.company}
           style={{
             width: "75%",
