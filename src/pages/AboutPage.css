@@ -421,3 +421,12 @@
     align-items: flex-start;
   }
 }
+
+/* ── Clean Details Section ── */
+.about-specs--clean {
+  border-top: none !important;
+}
+
+.about-specs--clean .about-specs__label {
+  border-top: none !important;
+}

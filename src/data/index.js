@@ -120,7 +120,7 @@ export const projects = [
     subtitle: "AI-Powered Study Planning Assistant",
     context: "KPMG Philippines Academic Innovation Challenge",
     
-    link: null,
+    link: "https://canva.link/0cgaxlg1mrpb95q",
     repo: null,
     description:
       "An AI-powered study planning assistant designed to help students organize academic tasks through intelligent scheduling, automated reminders, and a centralized dashboard.",
@@ -178,6 +178,7 @@ export const experience = [
     id: 1,
     role: "Software Engineer Intern",
     image: "cloudswyft.png",
+    logo: "public/images/logos/cloudswyft-logo.png",
     company: "Cloudswyft",
     location: "Philippines",
     period: "Dec 2025 – Mar 2026",
@@ -198,6 +199,7 @@ export const experience = [
   id: 2,
   role: "Fullstack Developer Head Intern",
   image: "internship-workflow.png",
+  logo: "public/images/logos/pru-life-logo.jpg",
   company: "Pru Life UK - Black Orcas Summit Life Insurance Agency",
   location: "Philippines",
   period: "April 2026 - Aug 2026",
@@ -222,6 +224,28 @@ export const experience = [
     "QA Testing",
     "CI/CD"
   ],
+  color: "#10b981",
+},
+
+{
+  id: 3,
+  role: "Cybersecurity Intern",
+  image: "cybersecurity-internship.png",
+  logo: "public/images/logos/kpmg-logo.png",
+  company: "KPMG Philippines",
+  location: "Philippines",
+  period: "Aug 2026 - Present",
+  type: "Internship",
+  bullets: [
+    "Assisted in cybersecurity assessments and audits, contributing to the identification of potential vulnerabilities.",
+    "Collaborated with the cybersecurity team to implement security measures and best practices.",
+    "Participated in training sessions and workshops to enhance knowledge of cybersecurity protocols and tools.",
+  ],
+  stack: [
+    "Cybersecurity",
+    "Security Audits",  
+  ],
+
   color: "#10b981",
 }
 ];

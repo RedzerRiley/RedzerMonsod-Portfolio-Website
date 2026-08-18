@@ -11,6 +11,8 @@ import AboutPage    from "./pages/AboutPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage  from "./pages/ContactPage";
 
+import { usePageTransition } from "./hooks/usePageTransition";
+
 // ── Cursor glow ───────────────────────────────────────────────
 function CursorGlow() {
   const auraRef   = useRef(null);
@@ -83,14 +85,12 @@ function CursorGlow() {
 
 // ── App ───────────────────────────────────────────────────────
 export default function App() {
-  const { pathname } = useLocation();
+  const location = useLocation();
 
   const [showIntro,      setShowIntro]      = useState(true);
   const [contentVisible, setContentVisible] = useState(false);
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [pathname]);
+  const { displayLocation, phase } = usePageTransition(location);
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text)" }}>
@@ -117,12 +117,14 @@ export default function App() {
       >
         <Navbar />
         <main className="page-content">
-          <Routes>
-            <Route path="/"         element={<HomePage />}      />
-            <Route path="/about"    element={<AboutPage />}     />
-            <Route path="/projects" element={<ProjectsPage />}  />
-            <Route path="/contact"  element={<ContactPage />}   />
-          </Routes>
+          <div key={displayLocation.pathname} className={`route-transition route-transition--${phase}`}>
+            <Routes location={displayLocation}>
+              <Route path="/"         element={<HomePage />}      />
+              <Route path="/about"    element={<AboutPage />}     />
+              <Route path="/projects" element={<ProjectsPage />}  />
+              <Route path="/contact"  element={<ContactPage />}   />
+            </Routes>
+          </div>
         </main>
         <Footer />
       </div>

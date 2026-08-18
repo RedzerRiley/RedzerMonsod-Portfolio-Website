@@ -209,6 +209,37 @@ h1,h2,h3,h4 { font-family: var(--font-display); line-height: 1.15; letter-spacin
 /* ── Page ── */
 .page-content { position:relative; z-index:1; }
 
+/* ── Route transitions ──
+   Same easing family as .anim-fade-up / .project-reveal so page-level
+   motion reads as part of the same system, not a bolted-on effect.
+   Exit is quick + ease-in (snap out of the way); enter is the site's
+   standard fade-up curve (settle into place). */
+:root { --route-exit-ms: 260ms; --route-enter-ms: 420ms; }
+
+.route-transition { position:relative; }
+.route-transition--enter-instant { opacity:1; transform:none; }
+
+@keyframes routeExit {
+  from { opacity:1; transform:translateY(0); }
+  to   { opacity:0; transform:translateY(-10px); }
+}
+@keyframes routeEnter {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.route-transition--exit {
+  animation: routeExit var(--route-exit-ms) cubic-bezier(0.4,0,1,1) both;
+}
+.route-transition--enter {
+  animation: routeEnter var(--route-enter-ms) cubic-bezier(0.22,1,0.36,1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-transition--exit,
+  .route-transition--enter { animation: none !important; }
+}
+
 /* ── Skill bar ── */
 .skill-bar-track { height:2px; background:rgba(255,255,255,0.06); border-radius:99px; overflow:hidden; }
 .skill-bar-fill  { height:100%; border-radius:99px; width:0%; transition:width .65s cubic-bezier(0.22,1,0.36,1) .08s; background:var(--text); }

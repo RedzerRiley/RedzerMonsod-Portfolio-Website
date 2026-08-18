@@ -1,5 +1,6 @@
 /* ============================================================
    ProjectsPage.css — editorial catalog layout
+
    A sequential list of case studies, not a grid of cards.
    ============================================================ */
 
@@ -10,6 +11,7 @@
 }
 
 /* ── Header ── */
+
 .projects-head {
   margin-bottom: 88px;
   max-width: 640px;
@@ -34,8 +36,11 @@
 }
 
 /* ── Project list ── */
+/* Removed the top divider so the first project
+   doesn't have an unnecessary line above it. */
+
 .project-list {
-  border-top: 1px solid var(--border);
+  border-top: none;
 }
 
 .project {
@@ -56,6 +61,7 @@
 }
 
 /* ── Media ── */
+
 .project__media {
   aspect-ratio: 16 / 10;
   border: 1px solid var(--border-mid);
@@ -71,7 +77,9 @@
   object-position: top center;
   display: block;
   filter: grayscale(35%);
-  transition: filter 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    filter 0.5s ease,
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .project__media:hover img {
@@ -92,6 +100,7 @@
 }
 
 /* ── Content ── */
+
 .project__head {
   display: flex;
   align-items: baseline;
@@ -186,7 +195,9 @@
   text-decoration: none;
   border-bottom: 1px solid var(--border-mid);
   padding-bottom: 2px;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .project__links a:hover {
@@ -200,7 +211,8 @@
   color: var(--text-faint);
 }
 
-/* ── Closing line (replaces the dashed "coming soon" card) ── */
+/* ── Closing line ── */
+
 .projects-more {
   padding: 44px 0 0;
   font-family: var(--font-body);
@@ -214,18 +226,22 @@
 }
 
 /* ── Responsive ── */
+
 @media (max-width: 780px) {
   .projects {
     padding-top: 116px;
   }
+
   .projects-head {
     margin-bottom: 56px;
   }
+
   .project {
     grid-template-columns: 1fr;
     gap: 24px;
     padding: 40px 0;
   }
+
   .project--reverse .project__media {
     order: 0;
   }
